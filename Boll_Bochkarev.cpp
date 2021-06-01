@@ -23,12 +23,14 @@ void Move_Boll ()
     int x1  = 120, y1  = 150,
         vx1 = 10,  vy1 = 4;
 
-    txSetColor (TX_LIGHTGREEN, 2);
-    txSetFillColor (TX_GREEN);
-
     while (!txGetAsyncKeyState (VK_ESCAPE))
         {
+        txSetColor (TX_LIGHTGREEN, 2);
+        txSetFillColor (TX_GREEN);
         txCircle (x,  y, 10);
+
+        txSetColor (RGB (x1, y1, 128), 2);
+        txSetFillColor (RGB (x1/2, y1/2, 128));
         txCircle (x1, y1, 15);
 
         x += -vx * dt;
@@ -88,17 +90,5 @@ void Move_Boll ()
             }
 
         txSleep (20);
-        }
-
-     while (!txGetAsyncKeyState (VK_ESCAPE))
-        {
-        txCircle (x + 10, y + 20, 1);
-        x += (-vx / 8) * dt;
-        y += (-vy / 2) * dt;
-
-        if (x > 900) {vx = - vx; x = 900;}
-        if (y > 600) {vy = - vy; y = 600;}
-        if (x < 0)   {vx = - vx; x = 0;}
-        if (y < 0)   {vy = - vy; y = 0;}
         }
     }
