@@ -6,7 +6,7 @@ void Move_Boll ();
 
 int main()
     {
-    txCreateWindow (800, 600);
+    txCreateWindow (900, 600);
 
     Move_Boll ();
 
@@ -16,7 +16,7 @@ int main()
 void Move_Boll ()
     {
     int x  = 100,   y  = 100,
-        vx =   5,   vy =   2;
+        vx =  15,   vy =   2;
 
     int dt = 1;
 
@@ -25,14 +25,14 @@ void Move_Boll ()
 
     while (!txGetAsyncKeyState (VK_ESCAPE))
         {
-        txCircle (x, y, 7);
+        txCircle (x, y, 10);
         x += vx * dt;
         y += vy * dt;
 
-        if (x > 800)
+        if (x > 900)
            {
            vx = -vx;
-           x = 800;
+           x = 900;
            }
 
         if (y > 600)
@@ -52,7 +52,15 @@ void Move_Boll ()
             vy = -vy;
             y = 0;
            }
+        txCircle (x, y, 12);
+        x += (-vx / 8) * dt;
+        y += (-vy / 2) * dt;
 
-        txSleep (10);
+        if (x > 900) {vx = - vx; x = 900;}
+        if (y > 600) {vy = - vy; y = 600;}
+        if (x < 0)   {vx = - vx; x = 0;}
+        if (y < 0)   {vy = - vy; y = 0;}
+
+        txSleep (20);
         }
     }
