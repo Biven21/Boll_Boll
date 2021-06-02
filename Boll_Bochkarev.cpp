@@ -4,6 +4,7 @@
 
 void Move_Ball ();
 void DrawBall (int x, int y, int r, COLORREF color, COLORREF fillcolor);
+void MoveBall (int x, int y, int vx, int vy, int ax, int ay, int dt);
 
 int main()
     {
@@ -20,6 +21,7 @@ void Move_Ball ()
     {
     int x  = 100, y  = 100,
         vx =  15, vy =   2;
+    int ax =   0, ay =   0;
 
     int dt = 1;
 
@@ -32,46 +34,9 @@ void Move_Ball ()
         DrawBall (x,  y,  10, TX_LIGHTGREEN, TX_GREEN);
         DrawBall (x1, y1, 15, RGB (x1, y1, 128), RGB (x1/2, y1/2, 128));
 
-        x += -vx * dt;
-        y +=  vy * dt;
+        MoveBall (x, y, vx, vy, ax, ay, dt);
+        MoveBall (x1, y1, vx1, vy1, ax1, ay1, dt);
 
-        if (x > 900)
-           {
-           vx = -vx;
-           x = 900;
-           }
-
-        if (y > 600)
-           {
-            vy = -vy;
-            y = 600;
-           }
-
-        if (x < 0)
-           {
-            vx = -vx;
-            x = 0;
-           }
-
-        if (y < 0)
-           {
-            vy = -vy;
-            y = 0;
-           }
-
-        vx1 += ax1 * dt;
-        vy1 += ay1 * dt;
-
-        x1 += vx1 * dt;
-        y1 += vy1 * dt;
-
-        if (x1 > 900) {vx1 = -vx1; x1 = 900;}
-
-        if (y1 > 600) {vy1 = -vy1; y1 = 600;}
-
-        if (x1 < 0) {vx1 = - vx1; x1 = 0;}
-
-        if (y1 < 0) {vy1 = - vy1; y1 = 0;}
 
         if (txGetAsyncKeyState (VK_RIGHT)) vx --;
         if (txGetAsyncKeyState (VK_LEFT))  vx ++;
@@ -104,3 +69,22 @@ void DrawBall (int x, int y, int r, COLORREF color, COLORREF fillcolor)
 
      txCircle (x,  y, r);
      }
+
+//-----------------------------------------------------------------------------
+
+void MoveBall (int x, int y, int vx, int vy, int ax, int ay, int dt)
+    {
+    vx += ax * dt;
+    vy += ay * dt;
+
+    x += vx * dt;
+    y += vy * dt;
+
+    if (x > 900) {vx = -vx; x = 900;}
+
+    if (y > 600) {vy = -vy; y = 600;}
+
+    if (x < 0)   {vx = -vx; x = 0;}
+
+    if (y < 0)   {vy = -vy; y = 0;}
+    }
