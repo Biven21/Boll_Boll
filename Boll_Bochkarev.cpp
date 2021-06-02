@@ -2,20 +2,21 @@
 
 #include "TXLib.h"
 
-void Move_Boll ();
+void Move_Ball ();
+void DrawBall (int x, int y, int r, COLORREF color, COLORREF fillcolor);
 
 int main()
     {
     txCreateWindow (900, 600);
 
-    Move_Boll ();
+    Move_Ball ();
 
     return 0;
     }
 
 //-----------------------------------------------------------------------------
 
-void Move_Boll ()
+void Move_Ball ()
     {
     int x  = 100, y  = 100,
         vx =  15, vy =   2;
@@ -28,13 +29,8 @@ void Move_Boll ()
 
     while (!txGetAsyncKeyState (VK_ESCAPE))
         {
-        txSetColor (TX_LIGHTGREEN, 2);
-        txSetFillColor (TX_GREEN);
-        txCircle (x,  y, 10);
-
-        txSetColor (RGB (x1, y1, 128), 2);
-        txSetFillColor (RGB (x1/2, y1/2, 128));
-        txCircle (x1, y1, 15);
+        DrawBall (x,  y,  10, TX_LIGHTGREEN, TX_GREEN);
+        DrawBall (x1, y1, 15, RGB (x1, y1, 128), RGB (x1/2, y1/2, 128));
 
         x += -vx * dt;
         y +=  vy * dt;
@@ -98,3 +94,13 @@ void Move_Boll ()
         txSleep (20);
         }
     }
+
+//-----------------------------------------------------------------------------
+
+void DrawBall (int x, int y, int r, COLORREF color, COLORREF fillcolor)
+     {
+     txSetColor (color, 2);
+     txSetFillColor (fillcolor);
+
+     txCircle (x,  y, r);
+     }
