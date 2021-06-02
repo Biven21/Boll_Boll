@@ -51,7 +51,7 @@ void Move_Boll ()
            x = 900;
            }
 
-        if (x1 > 900) vx1 = -vx1;
+        if (x1 > 900) {vx1 = -vx1; x1 = 900;}
 
         if (y > 600)
            {
@@ -59,7 +59,7 @@ void Move_Boll ()
             y = 600;
            }
 
-        if (y1 > 600) vy1 = -vy1;
+        if (y1 > 600) {vy1 = -vy1; y1 = 600;}
 
         if (x < 0)
            {
@@ -67,7 +67,7 @@ void Move_Boll ()
             x = 0;
            }
 
-        if (x1 < 0) vx1 = - vx1;
+        if (x1 < 0) {vx1 = - vx1; x1 = 0;}
 
         if (y < 0)
            {
@@ -75,7 +75,7 @@ void Move_Boll ()
             y = 0;
            }
 
-        if (y1 < 0) vy1 = - vy1;
+        if (y1 < 0) {vy1 = - vy1; y1 = 0;}
 
         if (txGetAsyncKeyState (VK_RIGHT)) vx --;
         if (txGetAsyncKeyState (VK_LEFT))  vx ++;
