@@ -13,6 +13,8 @@ int main()
     return 0;
     }
 
+//-----------------------------------------------------------------------------
+
 void Move_Boll ()
     {
     int x  = 100, y  = 100,
@@ -22,6 +24,7 @@ void Move_Boll ()
 
     int x1  = 120, y1  = 150,
         vx1 = 10,  vy1 = 4;
+    int ax1 = 0,   ay1 = 1;
 
     while (!txGetAsyncKeyState (VK_ESCAPE))
         {
@@ -35,6 +38,9 @@ void Move_Boll ()
 
         x += -vx * dt;
         y +=  vy * dt;
+
+        vx1 += ax1 * dt;
+        vy1 += ay1 * dt;
 
         x1 += vx1 * dt;
         y1 += vy1 * dt;
