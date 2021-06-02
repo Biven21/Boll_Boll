@@ -35,19 +35,11 @@ void Move_Ball ()
         x += -vx * dt;
         y +=  vy * dt;
 
-        vx1 += ax1 * dt;
-        vy1 += ay1 * dt;
-
-        x1 += vx1 * dt;
-        y1 += vy1 * dt;
-
         if (x > 900)
            {
            vx = -vx;
            x = 900;
            }
-
-        if (x1 > 900) {vx1 = -vx1; x1 = 900;}
 
         if (y > 600)
            {
@@ -55,21 +47,29 @@ void Move_Ball ()
             y = 600;
            }
 
-        if (y1 > 600) {vy1 = -vy1; y1 = 600;}
-
         if (x < 0)
            {
             vx = -vx;
             x = 0;
            }
 
-        if (x1 < 0) {vx1 = - vx1; x1 = 0;}
-
         if (y < 0)
            {
             vy = -vy;
             y = 0;
            }
+
+        vx1 += ax1 * dt;
+        vy1 += ay1 * dt;
+
+        x1 += vx1 * dt;
+        y1 += vy1 * dt;
+
+        if (x1 > 900) {vx1 = -vx1; x1 = 900;}
+
+        if (y1 > 600) {vy1 = -vy1; y1 = 600;}
+
+        if (x1 < 0) {vx1 = - vx1; x1 = 0;}
 
         if (y1 < 0) {vy1 = - vy1; y1 = 0;}
 
