@@ -1,5 +1,7 @@
 
+
 #include "TXLib.h"
+
 #include <math.h>
 
 void Move_Ball ();
@@ -9,6 +11,11 @@ void MoveBall (int* x, int* y, int* vx, int* vy, int rBall, int ax, int ay, int 
 int main()
     {
     txCreateWindow (900, 600);
+
+    double a = sqrt (9);
+    cout << "a = " << a;
+
+    txSleep (2000);
 
     Move_Ball ();
 
@@ -40,14 +47,12 @@ void Move_Ball ()
         MoveBall (&x,  &y,  &vx,  &vy,  rBall,  ax,  ay,  dt);
         MoveBall (&x1, &y1, &vx1, &vy1, rBall1, ax1, ay1, dt);
 
-        printf ("coord x = %d   x1 = %d   Y = %d   y1 = %d \n", x, x1, y,  y1);
+        printf ("coord x = %d   x1 = %d   Y = %d   y1 = %d \n", x, x1, y, y1);
         int distX = x - x1;
         int distY = y - y1;
         printf ("Distans    to x = %d    to Y = %d \n", distX, distY);
 
-
-        double r2 = sqrt(9); //(distX * distX + distY * distY);
-
+        int r2 = sqrt (distX * distX + distY * distY);
 
         printf ("расстояние между шарами r2 = %u       \n", r2);
 
@@ -100,7 +105,5 @@ void MoveBall (int* x, int* y, int* vx, int* vy, int rBall, int ax, int ay, int 
     if (*x < 0 + rBall)   {*vx = -(*vx); (*x) = 0 + rBall;}
 
     if (*y < 0 + rBall)   {*vy = -(*vy);  *y  = 0 + rBall;}
-
-
 
     }
