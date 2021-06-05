@@ -1,5 +1,4 @@
 
-
 #include "TXLib.h"
 
 void Move_Ball ();
@@ -21,7 +20,7 @@ void Move_Ball ()
     {
     int x  = 100, y  = 130,
         vx =   5, vy =   2;
-    int ax =   0, ay =  -1;
+    int ax =   0, ay =   0;
 
     int dt = 1;
 
@@ -31,8 +30,9 @@ void Move_Ball ()
 
     while (!txGetAsyncKeyState (VK_ESCAPE))
         {
+        txClear ();
         DrawBall (x,  y,  10, TX_LIGHTGREEN, TX_GREEN);
-        DrawBall (x1, y1, 15, RGB (x1, y1, 128), RGB (x1 /2, y1 /2, 128));
+        DrawBall (x1, y1, 15, RGB (12, 15, 128), RGB (122, 0, 128));
 
         MoveBall (&x,  &y,  &vx,  &vy,  ax,   ay,   dt);
         MoveBall (&x1, &y1, &vx1, &vy1, ax1, ay1, dt);
@@ -76,12 +76,9 @@ void MoveBall (int* x, int* y, int* vx, int* vy, int ax, int ay, int dt)
     *vx += ax * dt;
     *vy += ay * dt;
 
-    //printf ("MoveBall (): x = %d  vx = %d _________  adr_vx = %p \n", *x, vx, &vx);
-
     (*x) += (*vx) * dt;
     (*y) += (*vy) * dt;
 
-    //printf ("MoveBall (): x = %d  vx = %d raschet                \n", *x, vx);
     if (*x > 900) {*vx = -(*vx); (*x) = 900;}
 
     if (*y > 600) {*vy = -(*vy);  *y  = 600;}
@@ -90,5 +87,4 @@ void MoveBall (int* x, int* y, int* vx, int* vy, int ax, int ay, int dt)
 
     if (*y < 0)   {*vy = -(*vy);  *y  = 0;}
 
-    //printf ("MoveBall (): x = %d  vx = %d (after - ) adr_vx = %p \n\n", *x, vx, &vx);
     }
