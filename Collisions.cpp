@@ -2,8 +2,8 @@
 #include "TXLib.h"
 
 void Move_Ball ();
-void DrawBall (int x, int y, int r, COLORREF color, COLORREF fillcolor);
-void MoveBall (int* x, int* y, int* vx, int* vy, int ax, int ay, int dt);
+void DrawBall (int x, int y, int rBall, COLORREF color, COLORREF fillcolor);
+void MoveBall (int* x, int* y, int* vx, int* vy, int rBall, int ax, int ay, int dt);
 
 int main()
     {
@@ -18,24 +18,26 @@ int main()
 
 void Move_Ball ()
     {
+    int rBall = 30;
     int x  = 100, y  = 130,
         vx =   5, vy =   2;
     int ax =   0, ay =   0;
 
     int dt = 1;
 
-    int x1  = 120, y1  = 150,
-        vx1 = 6,   vy1 = 3;
-    int ax1 = 0,   ay1 = 2;
+    int x1  = 120, y1  = 150, rBall1 = 30,
+        vx1 = 3,   vy1 = 1;
+    int ax1 = 0,   ay1 = 1;
 
     while (!txGetAsyncKeyState (VK_ESCAPE))
         {
         txClear ();
-        DrawBall (x,  y,  10, TX_LIGHTGREEN, TX_GREEN);
-        DrawBall (x1, y1, 15, RGB (12, 15, 128), RGB (122, 0, 128));
+        DrawBall (x,  y,  rBall, TX_LIGHTGREEN, TX_GREEN);
+        DrawBall (x1, y1, rBall1, RGB (12, 15, 128), RGB (122, 0, 128));
+        txSetFillColor (TX_BLACK);
 
-        MoveBall (&x,  &y,  &vx,  &vy,  ax,   ay,   dt);
-        MoveBall (&x1, &y1, &vx1, &vy1, ax1, ay1, dt);
+        MoveBall (&x,  &y,  &vx,  &vy,  rBall,  ax,  ay,  dt);
+        MoveBall (&x1, &y1, &vx1, &vy1, rBall1, ax1, ay1, dt);
 
         if (txGetAsyncKeyState (VK_RIGHT)) vx --;
         if (txGetAsyncKeyState (VK_LEFT))  vx ++;
@@ -61,17 +63,17 @@ void Move_Ball ()
 
 //-----------------------------------------------------------------------------
 
-void DrawBall (int x, int y, int r, COLORREF color, COLORREF fillcolor)
+void DrawBall (int x, int y, int rBall, COLORREF color, COLORREF fillcolor)
      {
      txSetColor (color, 2);
      txSetFillColor (fillcolor);
 
-     txCircle (x, y, r);
+     txCircle (x, y, rBall);
      }
 
 //-----------------------------------------------------------------------------
 
-void MoveBall (int* x, int* y, int* vx, int* vy, int ax, int ay, int dt)
+void MoveBall (int* x, int* y, int* vx, int* vy, int rBall, int ax, int ay, int dt)
     {
     *vx += ax * dt;
     *vy += ay * dt;
@@ -79,12 +81,12 @@ void MoveBall (int* x, int* y, int* vx, int* vy, int ax, int ay, int dt)
     (*x) += (*vx) * dt;
     (*y) += (*vy) * dt;
 
-    if (*x > 900) {*vx = -(*vx); (*x) = 900;}
+    if (*x > 900 - rBall) {*vx = -(*vx); (*x) = 900 - rBall;}
 
-    if (*y > 600) {*vy = -(*vy);  *y  = 600;}
+    if (*y > 600 - rBall) {*vy = -(*vy);  *y  = 600 - rBall;}
 
-    if (*x < 0)   {*vx = -(*vx); (*x) = 0;}
+    if (*x < 0 + rBall)   {*vx = -(*vx); (*x) = 0 + rBall;}
 
-    if (*y < 0)   {*vy = -(*vy);  *y  = 0;}
+    if (*y < 0 + rBall)   {*vy = -(*vy);  *y  = 0 + rBall;}
 
     }
