@@ -6,7 +6,7 @@
 
 void Move_Ball ();
 void DrawBall (int x, int y, int rBall, COLORREF color, COLORREF fillcolor);
-void MoveBall (int* x, int* y, int* vx, int* vy, int rBall, int ax, int ay, int dt, int* r2);
+void MoveBall (int* x, int* y, int* vx, int* vy, int rBall, int ax, int ay, int dt, int rBB);
 
 int main()
     {
@@ -32,17 +32,32 @@ void Move_Ball ()
         vx1 = 3,   vy1 = 1;
     int ax1 = 0,   ay1 = 1;
 
-    int r2 = sqrt (pow ((x - x1), 2) + pow ((y - y1), 2));
+    int rBB = sqrt (pow ((x - x1), 2) + pow ((y - y1), 2));
 
     while (!txGetAsyncKeyState (VK_ESCAPE))
         {
         txClear ();
-        DrawBall (x,  y,  rBall, TX_LIGHTGREEN, TX_GREEN);
+        DrawBall (x,  y,  rBall,  TX_LIGHTGREEN,     TX_GREEN);
         DrawBall (x1, y1, rBall1, RGB (12, 15, 128), RGB (122, 0, 128));
         txSetFillColor (TX_BLACK);
 
-        MoveBall (&x,  &y,  &vx,  &vy,  rBall,  ax,  ay,  dt, &r2);
-        MoveBall (&x1, &y1, &vx1, &vy1, rBall1, ax1, ay1, dt, &r2);
+        MoveBall (&x,  &y,  &vx,  &vy,  rBall,  ax,  ay,  dt, rBB);
+        MoveBall (&x1, &y1, &vx1, &vy1, rBall1, ax1, ay1, dt, rBB);
+
+        printf ("coord x = %d   x1 = %d   Y = %d   y1 = %d \n", x, x1, y, y1);
+        int distX = x - (x1);
+        int distY = y - (y1);
+        printf ("Distans    to x = %d    to Y = %d \n", distX, distY);
+
+        rBB = sqrt (distX * distX + distY * distY);
+        printf ("расстояние между шарами rBB = %u       \n", rBB);
+
+        if (rBB <= 2 * rBall)
+            {
+            vx = - (vx); vy = - (vy);
+            x  = x - (vx) * dt;
+            y  = y - (vy) * dt;
+            }
 
         if (txGetAsyncKeyState (VK_RIGHT)) vx --;
         if (txGetAsyncKeyState (VK_LEFT))  vx ++;
@@ -78,22 +93,13 @@ void DrawBall (int x, int y, int rBall, COLORREF color, COLORREF fillcolor)
 
 //-----------------------------------------------------------------------------
 
-void MoveBall (int* x, int* y, int* vx, int* vy, int rBall, int ax, int ay, int dt, int* r2)
+void MoveBall (int* x, int* y, int* vx, int* vy, int rBall, int ax, int ay, int dt, int rBB)
     {
     *vx += ax * dt;
     *vy += ay * dt;
 
     (*x) += (*vx) * dt;
     (*y) += (*vy) * dt;
-
-    //printf ("coord x = %d   x1 = %d   Y = %d   y1 = %d \n", x, x1, y, y1);
-    int distX = *x - (*x1);
-    int distY = *y - (*y1);
-    printf ("Distans    to x = %d    to Y = %d \n", distX, distY);
-
-    *r2 = sqrt (distX * distX + distY * distY);
-
-    printf ("расстояние между шарами r2 = %u       \n", *r2);
 
     if (*x > 900 - rBall) {*vx = -(*vx); (*x) = 900 - rBall;}
 
@@ -103,10 +109,5 @@ void MoveBall (int* x, int* y, int* vx, int* vy, int rBall, int ax, int ay, int 
 
     if (*y < 0 + rBall)   {*vy = -(*vy);  *y  = 0 + rBall;}
 
-    if (r2 <= 2 * rBall)
-        {
-        *vx = - (*vx); *vy = - (*vy);
-        *x = *x - (*vx) * dt;
-        *y = *y - (*vy) * dt;
-        }
      }
+
