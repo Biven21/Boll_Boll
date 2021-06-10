@@ -7,7 +7,10 @@
 void Move_Ball ();
 void DrawBall (int x, int y, int rBall, COLORREF color, COLORREF fillcolor);
 void MoveBall (int* x, int* y, int* vx, int* vy, int rBall, int ax, int ay, int dt);
-void Collision (int x, int x1, int y, int y1, int vx, int vy, double rBB, int rBall,int dt);
+double Collision (int x, int x1, int y, int y1);
+bool CollisionIn (int x, int x1, int y, int y1, int rBall, int rBall1);
+void AnswerCollision (int* x, int* x1, int* y, int* y1, int* vx, int* vx1, int* vy, int* vy1,
+                      int ax, int ay, int dt);
 
 int main()
     {
@@ -22,18 +25,18 @@ int main()
 
 void Move_Ball ()
     {
-    int rBall = 30;
+    int rBall = 20;
     int x  = 100, y  = 130,
         vx =   5, vy =   2;
     int ax =   0, ay =   0;
 
     int dt = 1;
 
-    int x1  = 120, y1  = 150, rBall1 = 30,
+    int x1  = 120, y1  = 150, rBall1 = 20,
         vx1 = 3,   vy1 = 1;
     int ax1 = 0,   ay1 = 1;
 
-    int rBB = sqrt (pow ((x - x1), 2) + pow ((y - y1), 2));
+    int rBB = sqrt ((x - x1) * (x - x1) + (y - y1) * (y - y1));
 
     while (!txGetAsyncKeyState (VK_ESCAPE))
         {
@@ -45,7 +48,10 @@ void Move_Ball ()
         MoveBall (&x,  &y,  &vx,  &vy,  rBall,  ax,  ay,  dt);
         MoveBall (&x1, &y1, &vx1, &vy1, rBall1, ax1, ay1, dt);
 
-        Collision (x, x1, y, y1, vx, vy, rBB, rBall, dt);
+        if (CollisionIn (x, x1, y, y1, rBall, rBall1))
+            {
+            AnswerCollision(&x, &x1, &y, &y1, &vx, &vx1, &vy, &vy1, ax, ay, dt);
+            }
 
         if (txGetAsyncKeyState (VK_RIGHT)) vx --;
         if (txGetAsyncKeyState (VK_LEFT))  vx ++;
@@ -65,8 +71,14 @@ void Move_Ball ()
             txSetFillColor (TX_BLUE);
             }
 
-        txSleep (100);
+        txSleep (10);
         }
+    }
+
+//-----------------------------------------------------------------------------
+bool CollisionIn (int x, int x1, int y, int y1, int rBall, int rBall1)
+    {
+    return (Collision (x, x1, y, y1) <= (rBall + rBall1))? true : false;
     }
 
 //-----------------------------------------------------------------------------
@@ -101,21 +113,27 @@ void MoveBall (int* x, int* y, int* vx, int* vy, int rBall, int ax, int ay, int 
 
 //-----------------------------------------------------------------------------
 
-void Collision (int x, int x1, int y, int y1, int vx, int vy, double rBB, int rBall, int dt)
+double Collision (int x, int x1, int y, int y1)
     {
-    //printf ("coord x = %d   x1 = %d   Y = %d   y1 = %d \n", x, x1, y, y1);
-    //printf ("Distans    to x = %d    to Y = %d \n", distX, distY);
+    double rBB = sqrt ((x - x1) * (x - x1) + (y - y1) * (y - y1));
+    //printf ("расстояние между шарами Collision () rBB = %lg       \n", rBB);
 
-    rBB = sqrt ((x - x1) * (x - x1) + (y - y1) * (y - y1));
-
-    printf ("расстояние между шарами rBB = %u       \n", rBB);
-
-    if (rBB <= 2 * rBall)
-        {
-        vx = - (vx); vy = - (vy);
-        x  = x - (vx) * dt;
-        y  = y - (vy) * dt;
-        }
+    return rBB;
     }
 
 //-----------------------------------------------------------------------------
+void AnswerCollision (int* x, int* x1, int* y, int* y1, int* vx, int* vx1, int* vy, int* vy1,
+                      int ax, int ay, int dt)
+      {
+    *vx += ax * dt;
+    *vy += ay * dt;
+
+    (*x) += -(*vx) * dt;
+    (*y) += -(*vy) * dt;
+
+    *vx1 += ax * dt;
+    *vy1 += ay * dt;
+
+    (*x1) += -(*vx1) * dt;
+    (*y1) += -(*vy1) * dt;
+      }

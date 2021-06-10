@@ -7,7 +7,7 @@
 void Move_Ball ();
 void DrawBall (int x, int y, int rBall, COLORREF color, COLORREF fillcolor);
 void MoveBall (int* x, int* y, int* vx, int* vy, int rBall, int ax, int ay, int dt);
-void Collision (int x, int x1, int y, int y1, int vx, int vy, double rBB, int rBall,int dt);
+double Collision (int x, int x1, int y, int y1);
 
 int main()
     {
@@ -33,7 +33,7 @@ void Move_Ball ()
         vx1 = 3,   vy1 = 1;
     int ax1 = 0,   ay1 = 1;
 
-    int rBB = sqrt (pow ((x - x1), 2) + pow ((y - y1), 2));
+    int rBB = sqrt ((x - x1) * (x - x1) + (y - y1) * (y - y1));
 
     while (!txGetAsyncKeyState (VK_ESCAPE))
         {
@@ -45,7 +45,10 @@ void Move_Ball ()
         MoveBall (&x,  &y,  &vx,  &vy,  rBall,  ax,  ay,  dt);
         MoveBall (&x1, &y1, &vx1, &vy1, rBall1, ax1, ay1, dt);
 
-        Collision (x, x1, y, y1, vx, vy, rBB, rBall, dt);
+        if (CollisionIn (x, x1, y, y1, rBall, rBall1))
+            {
+            AnswerCollision(&x, &x1, &y, &y1, &vx, &vx1, &vy, &vy1, ax, ay, dt);
+            }
 
         if (txGetAsyncKeyState (VK_RIGHT)) vx --;
         if (txGetAsyncKeyState (VK_LEFT))  vx ++;
@@ -67,6 +70,12 @@ void Move_Ball ()
 
         txSleep (100);
         }
+    }
+
+//-----------------------------------------------------------------------------
+bool CollisionIn (int x, int x1, int y, int y1, int rBall, int rBall1)
+    {
+    return (Collision (x, x1, y, y1) <= (rBall + rBall1))? true : false;
     }
 
 //-----------------------------------------------------------------------------
@@ -98,16 +107,32 @@ void MoveBall (int* x, int* y, int* vx, int* vy, int rBall, int ax, int ay, int 
     if (*y < 0 + rBall)   {*vy = -(*vy);  *y  = 0 + rBall;}
 
      }
-                        
+
 //-----------------------------------------------------------------------------
 
- Collision (int x, int x1, int y, int y1)
+double Collision (int x, int x1, int y, int y1)
     {
     double rBB = sqrt ((x - x1) * (x - x1) + (y - y1) * (y - y1));
-    return rBB
-    
-    printf ("расстояние между шарами rBB = %u       \n", rBB);
+    printf ("расстояние между шарами Collision () rBB = %lg       \n", rBB);
 
+    return rBB;
     }
 
 //-----------------------------------------------------------------------------
+void (int* x, int* x1, int* y, int* y1, int* vx, int* vx1, int* vy, int* vy1,
+      int rBall, int ax, int ay, int dt)
+      {
+    *vx += ax * dt;
+    *vy += ay * dt;
+
+    (*x) += -(*vx) * dt;
+    (*y) += -(*vy) * dt;
+
+    *vx1 += ax * dt;
+    *vy1 += ay * dt;
+
+    (*x1) += -(*vx1) * dt;
+    (*y1) += -(*vy1) * dt;
+
+
+      }
