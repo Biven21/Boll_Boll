@@ -6,7 +6,8 @@
 
 void Move_Ball ();
 void DrawBall (int x, int y, int rBall, COLORREF color, COLORREF fillcolor);
-void MoveBall (int* x, int* y, int* vx, int* vy, int rBall, int ax, int ay, int dt, int rBB);
+void MoveBall (int* x, int* y, int* vx, int* vy, int rBall, int ax, int ay, int dt);
+void Collision (int x, int x1, int y, int y1, int vx, int vy, double rBB, int rBall,int dt);
 
 int main()
     {
@@ -41,23 +42,10 @@ void Move_Ball ()
         DrawBall (x1, y1, rBall1, RGB (12, 15, 128), RGB (122, 0, 128));
         txSetFillColor (TX_BLACK);
 
-        MoveBall (&x,  &y,  &vx,  &vy,  rBall,  ax,  ay,  dt, rBB);
-        MoveBall (&x1, &y1, &vx1, &vy1, rBall1, ax1, ay1, dt, rBB);
+        MoveBall (&x,  &y,  &vx,  &vy,  rBall,  ax,  ay,  dt);
+        MoveBall (&x1, &y1, &vx1, &vy1, rBall1, ax1, ay1, dt);
 
-        printf ("coord x = %d   x1 = %d   Y = %d   y1 = %d \n", x, x1, y, y1);
-        int distX = x - (x1);
-        int distY = y - (y1);
-        printf ("Distans    to x = %d    to Y = %d \n", distX, distY);
-
-        rBB = sqrt (distX * distX + distY * distY);
-        printf ("расстояние между шарами rBB = %u       \n", rBB);
-
-        if (rBB <= 2 * rBall)
-            {
-            vx = - (vx); vy = - (vy);
-            x  = x - (vx) * dt;
-            y  = y - (vy) * dt;
-            }
+        Collision (x, x1, y, y1, vx, vy, rBB, rBall, dt);
 
         if (txGetAsyncKeyState (VK_RIGHT)) vx --;
         if (txGetAsyncKeyState (VK_LEFT))  vx ++;
@@ -93,7 +81,7 @@ void DrawBall (int x, int y, int rBall, COLORREF color, COLORREF fillcolor)
 
 //-----------------------------------------------------------------------------
 
-void MoveBall (int* x, int* y, int* vx, int* vy, int rBall, int ax, int ay, int dt, int rBB)
+void MoveBall (int* x, int* y, int* vx, int* vy, int rBall, int ax, int ay, int dt)
     {
     *vx += ax * dt;
     *vy += ay * dt;
@@ -111,3 +99,23 @@ void MoveBall (int* x, int* y, int* vx, int* vy, int rBall, int ax, int ay, int 
 
      }
 
+//-----------------------------------------------------------------------------
+
+void Collision (int x, int x1, int y, int y1, int vx, int vy, double rBB, int rBall, int dt)
+    {
+    //printf ("coord x = %d   x1 = %d   Y = %d   y1 = %d \n", x, x1, y, y1);
+    //printf ("Distans    to x = %d    to Y = %d \n", distX, distY);
+
+    rBB = sqrt ((x - x1) * (x - x1) + (y - y1) * (y - y1));
+
+    printf ("расстояние между шарами rBB = %u       \n", rBB);
+
+    if (rBB <= 2 * rBall)
+        {
+        vx = - (vx); vy = - (vy);
+        x  = x - (vx) * dt;
+        y  = y - (vy) * dt;
+        }
+    }
+
+//-----------------------------------------------------------------------------
