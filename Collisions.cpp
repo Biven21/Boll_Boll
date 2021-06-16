@@ -1,7 +1,6 @@
 
 
 #include "TXLib.h"
-
 #include <math.h>
 
 void Move_Ball ();
@@ -25,14 +24,14 @@ int main()
 
 void Move_Ball ()
     {
-    int rBall = 20;
+    int rBall = 30;
     int x  = 100, y  = 130,
         vx =   5, vy =   2;
     int ax =   0, ay =   0;
 
     int dt = 1;
 
-    int x1  = 120, y1  = 150, rBall1 = 20,
+    int x1  = 120, y1  = 150, rBall1 = 30,
         vx1 = 3,   vy1 = 1;
     int ax1 = 0,   ay1 = 1;
 
@@ -128,6 +127,7 @@ void AnswerCollision (int* x, int* x1, int* y, int* y1, int* vx, int* vx1, int* 
     *vx += ax * dt;
     *vy += ay * dt;
 
+
     (*x) += -(*vx) * dt;
     (*y) += -(*vy) * dt;
 
@@ -135,5 +135,6 @@ void AnswerCollision (int* x, int* x1, int* y, int* y1, int* vx, int* vx1, int* 
     *vy1 += ay * dt;
 
     (*x1) += -(*vx1) * dt;
+
     (*y1) += -(*vy1) * dt;
       }
