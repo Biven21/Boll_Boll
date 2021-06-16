@@ -11,6 +11,17 @@ bool CollisionIn (int x, int x1, int y, int y1, int rBall, int rBall1);
 void AnswerCollision (int* x, int* x1, int* y, int* y1, int* vx, int* vx1, int* vy, int* vy1,
                       int ax, int ay, int dt);
 
+struct Ball
+    {
+    int x,  y, rBall;
+    int vx, vy;
+
+    double ax, ay;
+
+    COLORREF color;
+    COLORREF fillcolor;
+    };
+
 int main()
     {
     txCreateWindow (900, 600);
@@ -24,24 +35,18 @@ int main()
 
 void Move_Ball ()
     {
-    int rBall = 30;
-    int x  = 100, y  = 130,
-        vx =   5, vy =   2;
-    int ax =   0, ay =   0;
+    Ball Ball1 = {100, 130, 30, 5, 2, 0, 0, TX_LIGHTGREEN,     TX_GREEN};
+    Ball Ball2 = {120, 150, 30, 3, 1, 0, 1, RGB (12, 15, 128), RGB (122, 0, 128)};
 
     int dt = 1;
 
-    int x1  = 120, y1  = 150, rBall1 = 30,
-        vx1 = 3,   vy1 = 1;
-    int ax1 = 0,   ay1 = 1;
-
-    int rBB = sqrt ((x - x1) * (x - x1) + (y - y1) * (y - y1));
+    //int rBB = sqrt ((x - x1) * (x - x1) + (y - y1) * (y - y1));
 
     while (!txGetAsyncKeyState (VK_ESCAPE))
         {
         txClear ();
-        DrawBall (x,  y,  rBall,  TX_LIGHTGREEN,     TX_GREEN);
-        DrawBall (x1, y1, rBall1, RGB (12, 15, 128), RGB (122, 0, 128));
+        DrawBall (Ball1);
+        DrawBall (Ball2);
         txSetFillColor (TX_BLACK);
 
         MoveBall (&x,  &y,  &vx,  &vy,  rBall,  ax,  ay,  dt);
