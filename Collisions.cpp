@@ -87,7 +87,7 @@ bool CollisionIn (int x, int x1, int y, int y1, int rBall, int rBall1)
 
 //-----------------------------------------------------------------------------
 
-void DrawBall (int x, int y, int rBall, COLORREF color, COLORREF fillcolor)
+void DrawBall (Ball)
      {
      txSetColor (color, 2);
      txSetFillColor (fillcolor);
