@@ -3,12 +3,14 @@
 #include "TXLib.h"
 #include <math.h>
 
-void Move_Ball ();
-void DrawBall (struct Ball *);
-void MoveBall (struct Ball *, double dt);
+void Move_Ball (struct Ball Ball1, struct Ball Ball2, double dt);
+void DrawBall (struct Ball *bol);
+void MoveBall (struct Ball *bol, double dt);
 double Collision (struct Ball Ball1, struct Ball Ball2);
 bool CollisionIn (struct Ball Ball1, struct Ball Ball2);
-void AnswerCollision (struct Ball Ball1 *, struct Ball Ball2 *, double dt);
+void AnswerCollision (struct Ball Ball1 *bol1, struct Ball Ball2 *bol2, double dt);
+
+//-----------------------------------------------------------------------------
 
 struct Ball
     {
@@ -20,24 +22,25 @@ struct Ball
     COLORREF color;
     COLORREF fillcolor;
     };
+struct Ball *bol;
+
+//-----------------------------------------------------------------------------
 
 int main()
     {
     txCreateWindow (900, 600);
 
-    Move_Ball ();
+    Move_Ball (struct Ball Ball1, struct Ball Ball2, double dt);
 
     return 0;
     }
 
 //-----------------------------------------------------------------------------
 
-void Move_Ball ()
+void Move_Ball (struct Ball Ball1, struct Ball Ball2, double dt)
     {
-    struct Ball Ball1 = {100, 130, 30, 5, 2, 0, 0, TX_LIGHTGREEN,     TX_GREEN};
-    struct Ball Ball2 = {120, 150, 30, 3, 1, 0, 1, RGB (12, 15, 128), RGB (122, 0, 128)};
-
-    bol = &Ball;
+    struct Ball Ball1 *bol1 = {100, 130, 30, 5, 2, 0, 0, TX_LIGHTGREEN,     TX_GREEN};
+    struct Ball Ball2 *bol2 = {120, 150, 30, 3, 1, 0, 1, RGB (12, 15, 128), RGB (122, 0, 128)};
 
     double dt = 1;
 
@@ -141,3 +144,5 @@ void AnswerCollision (struct Ball Ball1 *bol1, struct Ball Ball2 *bol2, double d
     bol2 -> x1 += -bol2 -> vx1 * dt;
     bol2 -> y1 += -bol2 -> vy1 * dt;
       }
+
+//D:\school\КПК\Репозиторий\Boll_Boll\Boll_Boll\Collisions.cpp|28|error: expected primary-expression before 'struct'|
