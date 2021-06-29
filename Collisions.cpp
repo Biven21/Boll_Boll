@@ -5,11 +5,10 @@
 
 void Move_Ball ();
 void DrawBall (struct Ball *);
-void MoveBall (struct Ball *, int dt);
-double Collision (int x, int x1, int y, int y1);
-bool CollisionIn (int x, int x1, int y, int y1, int rBall, int rBall1);
-void AnswerCollision (int* x, int* x1, int* y, int* y1, int* vx, int* vx1, int* vy, int* vy1,
-                      int ax, int ay, int dt);
+void MoveBall (struct Ball *, double dt);
+double Collision (struct Ball Ball1, struct Ball Ball2);
+bool CollisionIn (struct Ball Ball1, struct Ball Ball2);
+void AnswerCollision (struct Ball Ball1 *, struct Ball Ball2 *, double dt);
 
 struct Ball
     {
@@ -54,7 +53,7 @@ void Move_Ball ()
         MoveBall (&Ball1, dt);
         MoveBall (&Ball2, dt);
 
-        if (CollisionIn (Ball1, Ball2))
+        if (CollisionIn (struct Ball Ball1, struct Ball Ball2))
             {
             AnswerCollision(Ball1, Ball2, dt);
             }
@@ -82,14 +81,14 @@ void Move_Ball ()
     }
 
 //-----------------------------------------------------------------------------
-bool CollisionIn (Ball1, Ball2)
+bool CollisionIn (struct Ball Ball1, struct Ball Ball2)
     {
     return (Collision (Ball1.x, Ball2.x, Ball1.y, Ball2.y) <= (Ball1.rBall + Ball2.rBall))? true : false;
     }
 
 //-----------------------------------------------------------------------------
 
-void DrawBall (struct Ball Ball)
+void DrawBall (struct Ball)
      {
      txSetColor (color, 2);
      txSetFillColor (fillcolor);
@@ -99,27 +98,27 @@ void DrawBall (struct Ball Ball)
 
 //-----------------------------------------------------------------------------
 
-void MoveBall (*Ball, double dt)
+void MoveBall (struct Ball *bol, double dt)
     {
-    *vx += ax * dt;
-    *vy += ay * dt;
+    bol -> vx += bol -> ax * dt;
+    bol -> vy += bol -> ay * dt;
 
-    (*x) += (*vx) * dt;
-    (*y) += (*vy) * dt;
+    bol -> x += bol -> vx * dt;
+    bol -> y += b0l -> vy * dt;
 
-    if (*x > 900 - rBall) {*vx = -(*vx); (*x) = 900 - rBall;}
+    if (bol -> x > 900 - bol -> rBall) {bol -> vx = -bol -> vx; bol -> x = 900 - bol -> rBall;}
 
-    if (*y > 600 - rBall) {*vy = -(*vy);  *y  = 600 - rBall;}
+    if (bol -> y > 600 - bol -> rBall) {bol -> vy = -bol -> vy; bol -> y = 600 - bol -> rBall;}
 
-    if (*x < 0 + rBall)   {*vx = -(*vx); (*x) = 0 + rBall;}
+    if (bol -> x < 0 + bol -> rBall)   {bol -> vx = -bol -> vx; bol -> x = 0 + bol -> rBall;}
 
-    if (*y < 0 + rBall)   {*vy = -(*vy);  *y  = 0 + rBall;}
+    if (bol -> y < 0 + bol -> rBall)   {bol -> vy = -bol -> vy; bol -> y  = 0 + bol-> rBall;}
 
      }
 
 //-----------------------------------------------------------------------------
 
-double Collision (int x, int x1, int y, int y1)
+double Collision (struct Ball Ball1, struct Ball Ball2)
     {
     double rBB = sqrt ((x - x1) * (x - x1) + (y - y1) * (y - y1));
     //printf ("расстояние между шарами Collision () rBB = %lg       \n", rBB);
@@ -128,20 +127,17 @@ double Collision (int x, int x1, int y, int y1)
     }
 
 //-----------------------------------------------------------------------------
-void AnswerCollision (int* x, int* x1, int* y, int* y1, int* vx, int* vx1, int* vy, int* vy1,
-                      int ax, int ay, int dt)
+void AnswerCollision (struct Ball Ball1 *bol1, struct Ball Ball2 *bol2, double dt)
       {
-    *vx += ax * dt;
-    *vy += ay * dt;
+    bol1 -> vx += bol1 -> ax * dt;
+    bol1 -> vy += bol1 -> ay * dt;
 
+    bol1 -> x += -bol1 -> bol1 -> vx * dt;
+    bol1 -> y += -bol1 -> bol1 -> vy * dt;
 
-    (*x) += -(*vx) * dt;
-    (*y) += -(*vy) * dt;
+    bol2 -> vx += bol2 -> ax * dt;
+    bol2 -> vy += bol2 -> ay * dt;
 
-    *vx1 += ax * dt;
-    *vy1 += ay * dt;
-
-    (*x1) += -(*vx1) * dt;
-
-    (*y1) += -(*vy1) * dt;
+    bol2 -> x1 += -bol2 -> vx1 * dt;
+    bol2 -> y1 += -bol2 -> vy1 * dt;
       }
