@@ -4,8 +4,8 @@
 #include <math.h>
 
 void Move_Ball ();
-void DrawBall (int x, int y, int rBall, COLORREF color, COLORREF fillcolor);
-void MoveBall (int* x, int* y, int* vx, int* vy, int rBall, int ax, int ay, int dt);
+void DrawBall (struct Ball *);
+void MoveBall (struct Ball *, int dt);
 double Collision (int x, int x1, int y, int y1);
 bool CollisionIn (int x, int x1, int y, int y1, int rBall, int rBall1);
 void AnswerCollision (int* x, int* x1, int* y, int* y1, int* vx, int* vx1, int* vy, int* vy1,
@@ -35,8 +35,10 @@ int main()
 
 void Move_Ball ()
     {
-    Ball Ball1 = {100, 130, 30, 5, 2, 0, 0, TX_LIGHTGREEN,     TX_GREEN};
-    Ball Ball2 = {120, 150, 30, 3, 1, 0, 1, RGB (12, 15, 128), RGB (122, 0, 128)};
+    struct Ball Ball1 = {100, 130, 30, 5, 2, 0, 0, TX_LIGHTGREEN,     TX_GREEN};
+    struct Ball Ball2 = {120, 150, 30, 3, 1, 0, 1, RGB (12, 15, 128), RGB (122, 0, 128)};
+    
+    bol = &Ball;
 
     double dt = 1;
 
@@ -45,8 +47,8 @@ void Move_Ball ()
     while (!txGetAsyncKeyState (VK_ESCAPE))
         {
         txClear ();
-        DrawBall (Ball Ball1);
-        DrawBall (Ball Ball2);
+        DrawBall (&Ball1);
+        DrawBall (&Ball2);
         txSetFillColor (TX_BLACK);
 
         MoveBall (&Ball1, dt);
@@ -57,12 +59,12 @@ void Move_Ball ()
             AnswerCollision(Ball1, Ball2, dt);
             }
 
-        if (txGetAsyncKeyState (VK_RIGHT)) Ball.vx --;
-        if (txGetAsyncKeyState (VK_LEFT))  Ball.vx ++;
-        if (txGetAsyncKeyState (VK_UP))    Ball.vy --;
-        if (txGetAsyncKeyState (VK_DOWN))  Ball.vy ++;
+        if (txGetAsyncKeyState (VK_RIGHT)) Ball1.vx --;
+        if (txGetAsyncKeyState (VK_LEFT))  Ball1.vx ++;
+        if (txGetAsyncKeyState (VK_UP))    Ball1.vy --;
+        if (txGetAsyncKeyState (VK_DOWN))  Ball1.vy ++;
 
-        if (txGetAsyncKeyState (VK_SPACE)) Ball.vx = Ball.vy = 0;
+        if (txGetAsyncKeyState (VK_SPACE)) Ball1.vx = Ball1.vy = 0;
 
         if (txGetAsyncKeyState (VK_F1))
             {
@@ -87,7 +89,7 @@ bool CollisionIn (Ball1, Ball2)
 
 //-----------------------------------------------------------------------------
 
-void DrawBall (Ball)
+void DrawBall (struct Ball Ball)
      {
      txSetColor (color, 2);
      txSetFillColor (fillcolor);

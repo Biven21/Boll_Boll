@@ -4,8 +4,8 @@
 #include <math.h>
 
 void Move_Ball ();
-void DrawBall (int x, int y, int rBall, COLORREF color, COLORREF fillcolor);
-void MoveBall (int* x, int* y, int* vx, int* vy, int rBall, int ax, int ay, int dt);
+void DrawBall (struct Ball *);
+void MoveBall (struct Ball *, int dt);
 double Collision (int x, int x1, int y, int y1);
 bool CollisionIn (int x, int x1, int y, int y1, int rBall, int rBall1);
 void AnswerCollision (int* x, int* x1, int* y, int* y1, int* vx, int* vx1, int* vy, int* vy1,
@@ -35,34 +35,36 @@ int main()
 
 void Move_Ball ()
     {
-    Ball Ball1 = {100, 130, 30, 5, 2, 0, 0, TX_LIGHTGREEN,     TX_GREEN};
-    Ball Ball2 = {120, 150, 30, 3, 1, 0, 1, RGB (12, 15, 128), RGB (122, 0, 128)};
+    struct Ball Ball1 = {100, 130, 30, 5, 2, 0, 0, TX_LIGHTGREEN,     TX_GREEN};
+    struct Ball Ball2 = {120, 150, 30, 3, 1, 0, 1, RGB (12, 15, 128), RGB (122, 0, 128)};
 
-    int dt = 1;
+    bol = &Ball;
+
+    double dt = 1;
 
     //int rBB = sqrt ((x - x1) * (x - x1) + (y - y1) * (y - y1));
 
     while (!txGetAsyncKeyState (VK_ESCAPE))
         {
         txClear ();
-        DrawBall (Ball1);
-        DrawBall (Ball2);
+        DrawBall (&Ball1);
+        DrawBall (&Ball2);
         txSetFillColor (TX_BLACK);
 
-        MoveBall (&x,  &y,  &vx,  &vy,  rBall,  ax,  ay,  dt);
-        MoveBall (&x1, &y1, &vx1, &vy1, rBall1, ax1, ay1, dt);
+        MoveBall (&Ball1, dt);
+        MoveBall (&Ball2, dt);
 
-        if (CollisionIn (x, x1, y, y1, rBall, rBall1))
+        if (CollisionIn (Ball1, Ball2))
             {
-            AnswerCollision(&x, &x1, &y, &y1, &vx, &vx1, &vy, &vy1, ax, ay, dt);
+            AnswerCollision(Ball1, Ball2, dt);
             }
 
-        if (txGetAsyncKeyState (VK_RIGHT)) vx --;
-        if (txGetAsyncKeyState (VK_LEFT))  vx ++;
-        if (txGetAsyncKeyState (VK_UP))    vy --;
-        if (txGetAsyncKeyState (VK_DOWN))  vy ++;
+        if (txGetAsyncKeyState (VK_RIGHT)) Ball1.vx --;
+        if (txGetAsyncKeyState (VK_LEFT))  Ball1.vx ++;
+        if (txGetAsyncKeyState (VK_UP))    Ball1.vy --;
+        if (txGetAsyncKeyState (VK_DOWN))  Ball1.vy ++;
 
-        if (txGetAsyncKeyState (VK_SPACE)) vx = vy = 0;
+        if (txGetAsyncKeyState (VK_SPACE)) Ball1.vx = Ball1.vy = 0;
 
         if (txGetAsyncKeyState (VK_F1))
             {
@@ -80,24 +82,24 @@ void Move_Ball ()
     }
 
 //-----------------------------------------------------------------------------
-bool CollisionIn (int x, int x1, int y, int y1, int rBall, int rBall1)
+bool CollisionIn (Ball1, Ball2)
     {
-    return (Collision (x, x1, y, y1) <= (rBall + rBall1))? true : false;
+    return (Collision (Ball1.x, Ball2.x, Ball1.y, Ball2.y) <= (Ball1.rBall + Ball2.rBall))? true : false;
     }
 
 //-----------------------------------------------------------------------------
 
-void DrawBall (Ball)
+void DrawBall (struct Ball Ball)
      {
      txSetColor (color, 2);
      txSetFillColor (fillcolor);
 
-     txCircle (x, y, rBall);
+     txCircle (Ball.x, Ball.y, Ball.rBall);
      }
 
 //-----------------------------------------------------------------------------
 
-void MoveBall (int* x, int* y, int* vx, int* vy, int rBall, int ax, int ay, int dt)
+void MoveBall (*Ball, double dt)
     {
     *vx += ax * dt;
     *vy += ay * dt;
