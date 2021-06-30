@@ -3,12 +3,12 @@
 #include "TXLib.h"
 #include <math.h>
 
-void Move_Ball (struct Ball Ball1, struct Ball Ball2, double dt);
-void DrawBall (struct Ball *bol);
-void MoveBall (struct Ball *bol, double dt);
+void Move_Ball ();
+void DrawBall (struct Ball);
+void MoveBall (struct Ball* Ball, double dt);
 double Collision (struct Ball Ball1, struct Ball Ball2);
 bool CollisionIn (struct Ball Ball1, struct Ball Ball2);
-void AnswerCollision (struct Ball Ball1 *bol1, struct Ball Ball2 *bol2, double dt);
+void AnswerCollision (struct Ball* Ball1, struct Ball* Ball2, double dt);
 
 //-----------------------------------------------------------------------------
 
@@ -22,7 +22,6 @@ struct Ball
     COLORREF color;
     COLORREF fillcolor;
     };
-struct Ball *bol;
 
 //-----------------------------------------------------------------------------
 
@@ -30,17 +29,17 @@ int main()
     {
     txCreateWindow (900, 600);
 
-    Move_Ball (struct Ball Ball1, struct Ball Ball2, double dt);
+    Move_Ball ();
 
     return 0;
     }
 
 //-----------------------------------------------------------------------------
 
-void Move_Ball (struct Ball Ball1, struct Ball Ball2, double dt)
+void Move_Ball ()
     {
-    struct Ball Ball1 *bol1 = {100, 130, 30, 5, 2, 0, 0, TX_LIGHTGREEN,     TX_GREEN};
-    struct Ball Ball2 *bol2 = {120, 150, 30, 3, 1, 0, 1, RGB (12, 15, 128), RGB (122, 0, 128)};
+    struct Ball Ball1 = {100, 130, 30, 5, 2, 0, 0, TX_LIGHTGREEN,     TX_GREEN};
+    struct Ball Ball2 = {120, 150, 30, 3, 1, 0, 1, RGB (12, 15, 128), RGB (122, 0, 128)};
 
     double dt = 1;
 
@@ -49,8 +48,8 @@ void Move_Ball (struct Ball Ball1, struct Ball Ball2, double dt)
     while (!txGetAsyncKeyState (VK_ESCAPE))
         {
         txClear ();
-        DrawBall (&Ball1);
-        DrawBall (&Ball2);
+        DrawBall (Ball1);
+        DrawBall (Ball2);
         txSetFillColor (TX_BLACK);
 
         MoveBall (&Ball1, dt);
@@ -58,7 +57,7 @@ void Move_Ball (struct Ball Ball1, struct Ball Ball2, double dt)
 
         if (CollisionIn (struct Ball Ball1, struct Ball Ball2))
             {
-            AnswerCollision(Ball1, Ball2, dt);
+            AnswerCollision(&Ball1, &Ball2, dt);
             }
 
         if (txGetAsyncKeyState (VK_RIGHT)) Ball1.vx --;
@@ -86,36 +85,36 @@ void Move_Ball (struct Ball Ball1, struct Ball Ball2, double dt)
 //-----------------------------------------------------------------------------
 bool CollisionIn (struct Ball Ball1, struct Ball Ball2)
     {
-    return (Collision (Ball1.x, Ball2.x, Ball1.y, Ball2.y) <= (Ball1.rBall + Ball2.rBall))? true : false;
+    return ((Collision (struct Ball Ball1, struct Ball Ball2)) <= (Ball1.rBall + Ball2.rBall))? true : false;
     }
 
 //-----------------------------------------------------------------------------
 
-void DrawBall (struct Ball)
+void DrawBall (struct Ball Ball)
      {
-     txSetColor (color, 2);
-     txSetFillColor (fillcolor);
+     txSetColor (Ball.color, 2);
+     txSetFillColor (Ball.fillcolor);
 
      txCircle (Ball.x, Ball.y, Ball.rBall);
      }
 
 //-----------------------------------------------------------------------------
 
-void MoveBall (struct Ball *bol, double dt)
+void MoveBall (struct Ball* Ball, double dt)
     {
-    bol -> vx += bol -> ax * dt;
-    bol -> vy += bol -> ay * dt;
+    (*Ball).vx += (*Ball).ax * dt;
+    (*Ball).vy += (*Ball).ay * dt;
 
-    bol -> x += bol -> vx * dt;
-    bol -> y += b0l -> vy * dt;
+    (*Ball).x += (*Ball).vx * dt;
+    (*Ball).y += (*Ball).vy * dt;
 
-    if (bol -> x > 900 - bol -> rBall) {bol -> vx = -bol -> vx; bol -> x = 900 - bol -> rBall;}
+    if ((*Ball).x > 900 - (*Ball).rBall) {(*Ball).vx = -(*Ball).vx; (*Ball).x = 900 - (*Ball).rBall;}
 
-    if (bol -> y > 600 - bol -> rBall) {bol -> vy = -bol -> vy; bol -> y = 600 - bol -> rBall;}
+    if ((*Ball).y > 600 - (*Ball).rBall) {(*Ball).vy = -(*Ball).vy; (*Ball).y = 600 - (*Ball).rBall;}
 
-    if (bol -> x < 0 + bol -> rBall)   {bol -> vx = -bol -> vx; bol -> x = 0 + bol -> rBall;}
+    if ((*Ball).x < 0 + (*Ball).rBall)   {(*Ball).vx = -(*Ball).vx; (*Ball).x = 0 + (*Ball).rBall;}
 
-    if (bol -> y < 0 + bol -> rBall)   {bol -> vy = -bol -> vy; bol -> y  = 0 + bol-> rBall;}
+    if ((*Ball).y < 0 + (*Ball).rBall)   {(*Ball).vy = -(*Ball).vy; (*Ball).y = 0 + (*Ball).rBall;}
 
      }
 
@@ -123,26 +122,26 @@ void MoveBall (struct Ball *bol, double dt)
 
 double Collision (struct Ball Ball1, struct Ball Ball2)
     {
-    double rBB = sqrt ((x - x1) * (x - x1) + (y - y1) * (y - y1));
+    double rBB = sqrt ((Ball1.x - Ball2.x) * (Ball1.x - Ball2.x) + (Ball1.y - Ball2.y) * (Ball1.y - Ball2.y));
     //printf ("расстояние между шарами Collision () rBB = %lg       \n", rBB);
 
     return rBB;
     }
 
 //-----------------------------------------------------------------------------
-void AnswerCollision (struct Ball Ball1 *bol1, struct Ball Ball2 *bol2, double dt)
+void AnswerCollision (struct Ball* Ball1, struct Ball* Ball2, double dt)
       {
-    bol1 -> vx += bol1 -> ax * dt;
-    bol1 -> vy += bol1 -> ay * dt;
+    (*Ball1).vx += (*Ball1).ax * dt;
+    (*Ball1).vy += (*Ball1).ay * dt;
 
-    bol1 -> x += -bol1 -> bol1 -> vx * dt;
-    bol1 -> y += -bol1 -> bol1 -> vy * dt;
+    (*Ball1).x += -(*Ball1).vx * dt;
+    (*Ball1).y += -(*Ball1).vy * dt;
 
-    bol2 -> vx += bol2 -> ax * dt;
-    bol2 -> vy += bol2 -> ay * dt;
+    (*Ball2).vx += (*Ball2).ax * dt;
+    (*Ball2).vy += (*Ball2).ay * dt;
 
-    bol2 -> x1 += -bol2 -> vx1 * dt;
-    bol2 -> y1 += -bol2 -> vy1 * dt;
+    (*Ball2).x += -(*Ball2).vx * dt;
+    (*Ball2).y += -(*Ball2).vy * dt;
       }
 
 //D:\school\КПК\Репозиторий\Boll_Boll\Boll_Boll\Collisions.cpp|28|error: expected primary-expression before 'struct'|
