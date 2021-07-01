@@ -8,14 +8,15 @@ void DrawBall (struct Ball);
 void MoveBall (struct Ball* Ball, double dt);
 double Collision (struct Ball Ball1, struct Ball Ball2);
 bool CollisionIn (struct Ball Ball1, struct Ball Ball2);
-void AnswerCollision (struct Ball* Ball1, struct Ball* Ball2, double dt);
+void AnswerCollision (struct Ball* Ball1, struct Ball* Ball2, double dt,
+                      double oldx1, double oldy1, double oldx2, double oldy2, ouble rBB);
 
 //-----------------------------------------------------------------------------
 
 struct Ball
     {
-    int x,  y, rBall;
-    int vx, vy;
+    double x,  y, rBall;
+    double vx, vy;
 
     double ax, ay;
 
@@ -55,9 +56,14 @@ void Move_Ball ()
         MoveBall (&Ball1, dt);
         MoveBall (&Ball2, dt);
 
-        if ((CollisionIn (struct Ball Ball1, struct Ball Ball2)
+        double oldx1 = Ball1.x;
+        double oldy1 = Ball1.y;
+        double oldx2 = Ball2.x;
+        double oldy2 = Ball2.y;
+
+        if (CollisionIn (Ball1, Ball2))
             {
-            AnswerCollision(Ball1, Ball2, dt);
+            AnswerCollision(&Ball1, &Ball2, dt, oldx1, oldy1, oldx2, oldy2, rBB);
             }
 
         if (txGetAsyncKeyState (VK_RIGHT)) Ball1.vx --;
@@ -78,16 +84,24 @@ void Move_Ball ()
             txSetFillColor (TX_BLUE);
             }
 
-        txSleep (10);
+        txSleep (200);
         }
+    }
+//-----------------------------------------------------------------------------
+
+bool CollisionIn (Ball Ball1, Ball Ball2)
+    {
+    return ((Collision (Ball1, Ball2)) <= (Ball1.rBall + Ball2.rBall))? true : false;
     }
 
 //-----------------------------------------------------------------------------
-bool CollisionIn (struct Ball Ball1, struct Ball Ball2)
+double Collision (Ball Ball1, Ball Ball2)
     {
-    return (((Collision (struct Ball Ball1, struct Ball Ball2)) <= (Ball1.rBall + Ball2.rBall))? true : false;
-    }
+    double rBB = sqrt ((Ball1.x - Ball2.x) * (Ball1.x - Ball2.x) + (Ball1.y - Ball2.y) * (Ball1.y - Ball2.y));
+    //printf ("расстояние между шарами Collision () rBB = %lg       \n", rBB);
 
+    return rBB;
+    }
 //-----------------------------------------------------------------------------
 
 void DrawBall (struct Ball Ball)
@@ -120,28 +134,28 @@ void MoveBall (struct Ball* Ball, double dt)
 
 //-----------------------------------------------------------------------------
 
-double Collision (struct Ball Ball1, struct Ball Ball2)
-    {
-    double rBB = sqrt ((Ball1.x - Ball2.x) * (Ball1.x - Ball2.x) + (Ball1.y - Ball2.y) * (Ball1.y - Ball2.y));
-    //printf ("расстояние между шарами Collision () rBB = %lg       \n", rBB);
-
-    return rBB;
-    }
-
-//-----------------------------------------------------------------------------
-void AnswerCollision (struct Ball* Ball1, struct Ball* Ball2, double dt)
+void AnswerCollision (struct Ball* Ball1, struct Ball* Ball2, double dt, double oldx1, double oldy1, double oldx2, double oldy2, double rBB)
       {
-    (*Ball1).vx += (*Ball1).ax * dt;
-    (*Ball1).vy += (*Ball1).ay * dt;
+      (*Ball1).x = oldx1; //+ (*Ball1).rBall / 4;
+      (*Ball1).y = oldy1; //+ (*Ball1).rBall / 4;
 
-    (*Ball1).x += -(*Ball1).vx * dt;
-    (*Ball1).y += -(*Ball1).vy * dt;
+      (*Ball1).vx += (*Ball1).ax * dt;
+      (*Ball1).vy += (*Ball1).ay * dt;
 
-    (*Ball2).vx += (*Ball2).ax * dt;
-    (*Ball2).vy += (*Ball2).ay * dt;
+      (*Ball1).x += -(*Ball1).vx * dt;
+      (*Ball1).y += -(*Ball1).vy * dt;
 
-    (*Ball2).x += -(*Ball2).vx * dt;
-    (*Ball2).y += -(*Ball2).vy * dt;
+      (*Ball2).x = oldx2 + (*Ball2).rBall / 8;
+      (*Ball2).y = oldy2 + (*Ball2).rBall / 8;
+
+      (*Ball2).vx += (*Ball2).ax * dt;
+      (*Ball2).vy += (*Ball2).ay * dt;
+
+      (*Ball2).x += -(*Ball2).vx * dt;
+      (*Ball2).y += -(*Ball2).vy * dt;
+
+      printf ("koord X = %lg \n", (*Ball2).x);
+      printf ("расстояние между шарами Collision () rBB = %lg       \n", rBB);
       }
 
 //D:\school\КПК\Репозиторий\Boll_Boll\Boll_Boll\Collisions.cpp|28|error: expected primary-expression before 'struct'|
