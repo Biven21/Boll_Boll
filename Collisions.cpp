@@ -135,21 +135,25 @@ void MoveBall (struct Ball* Ball, double dt)
 //-----------------------------------------------------------------------------
 
 void AnswerCollision (struct Ball* Ball1, struct Ball* Ball2, double dt, double oldx1, double oldy1, double oldx2, double oldy2)
-      {
-      (*Ball1).vx += (*Ball1).ax * dt;
-      (*Ball1).vy += (*Ball1).ay * dt;
+    {
+    float rBB = Colision (Ball1, Ball2);
+    if (rBB == 0) rBB = 0.01;
+    float cos = (*Ball1).x / rBB;
+    float sin = (*Boll1).y / rBB;
 
-      (*Ball1).x += -(*Ball1).vx * dt;
-      (*Ball1).y += -(*Ball1).vy * dt;
+    float Vn1 = - (*Ball1).vx * sin + (*Ball1).vy * cos;
+    float Vn2 = - (*Ball2).vx * sin + (*Ball2).vy * cos;
+    float Vt1 =   (*Ball1).vx * cos + (*Ball2).vy * sin;
+    float Vt2 =   (*Ball2).vx * cos + (*Ball2).vy * sin;
 
-      (*Ball2).vx += (*Ball2).ax * dt;
-      (*Ball2).vy += (*Ball2).ay * dt;
+    float dop = Vn1;
+          Vn1 = Vn2;
+          Vn2 = dop;
 
-      (*Ball2).x += -(*Ball2).vx * dt;
-      (*Ball2).y += -(*Ball2).vy * dt;
+
+
 
       printf ("OLDkoord X = %lg \n", oldx1);
       printf ("koord X = %lg \n", (*Ball2).x);
-      }
+    }
 
-//D:\school\КПК\Репозиторий\Boll_Boll\Boll_Boll\Collisions.cpp|28|error: expected primary-expression before 'struct'|
