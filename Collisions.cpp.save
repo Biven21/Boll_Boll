@@ -8,8 +8,7 @@ void DrawBall (struct Ball);
 void MoveBall (struct Ball* Ball, double dt);
 double Collision (struct Ball Ball1, struct Ball Ball2);
 bool CollisionIn (struct Ball Ball1, struct Ball Ball2);
-void AnswerCollision (struct Ball* Ball1, struct Ball* Ball2, double dt,
-                      double oldx1, double oldy1, double oldx2, double oldy2);
+void AnswerCollision (struct Ball* Ball1, struct Ball* Ball2, double dt);
 
 //-----------------------------------------------------------------------------
 
@@ -56,14 +55,10 @@ void Move_Ball ()
         MoveBall (&Ball1, dt);
         MoveBall (&Ball2, dt);
 
-        double oldx1 = Ball1.x;
-        double oldy1 = Ball1.y;
-        double oldx2 = Ball2.x;
-        double oldy2 = Ball2.y;
-
         if (CollisionIn (Ball1, Ball2))
             {
-            AnswerCollision(&Ball1, &Ball2, dt, oldx1, oldy1, oldx2, oldy2);
+
+            AnswerCollision(&Ball1, &Ball2, dt);
             }
 
         if (txGetAsyncKeyState (VK_RIGHT)) Ball1.vx --;
@@ -134,23 +129,31 @@ void MoveBall (struct Ball* Ball, double dt)
 
 //-----------------------------------------------------------------------------
 
-void AnswerCollision (struct Ball* Ball1, struct Ball* Ball2, double dt, double oldx1, double oldy1, double oldx2, double oldy2)
+void AnswerCollision (struct Ball* Ball1, struct Ball* Ball2, double dt)
     {
-    float rBB = Colision (Ball1, Ball2);
+    //float rBB = Colision (Ball1, Ball2);
+    float rBB = sqrt (((*Ball1).x - (*Ball2).x) * ((*Ball1).x - (*Ball2).x)) +
+                      ((*Ball1).y - (*Ball2).y) * ((*Ball1).y - (*Ball2).y));
     if (rBB == 0) rBB = 0.01;
     float cos = (*Ball1).x / rBB;
-    float sin = (*Boll1).y / rBB;
-    
+    float sin = (*Ball1).y / rBB;
+
     float Vn1 = - (*Ball1).vx * sin + (*Ball1).vy * cos;
     float Vn2 = - (*Ball2).vx * sin + (*Ball2).vy * cos;
     float Vt1 =   (*Ball1).vx * cos + (*Ball2).vy * sin;
     float Vt2 =   (*Ball2).vx * cos + (*Ball2).vy * sin;
-    
-    float dop = Vn1;
-          Vn2
-    
 
-      printf ("OLDkoord X = %lg \n", oldx1);
-      printf ("koord X = %lg \n", (*Ball2).x);
+    float dop = Vn1;
+          Vn1 = Vn2;
+          Vn2 = dop;
+
+    (*Ball1).vx = Vt1 * cos - Vn1 * sin;
+    (*Ball2).vx = Vt2 * cos - Vn2 * sin;
+    (*Ball1).vy = Vt1 * sin + Vn1 * cos;
+    (*Ball2).vy = Vt2 * sin + Vn2 * cos;
+
+
+      //printf ("OLDkoord X = %lg \n", oldx1);
+      //printf ("koord X = %lg \n", (*Ball2).x);
     }
 
