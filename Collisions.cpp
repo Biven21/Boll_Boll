@@ -79,7 +79,7 @@ void Move_Ball ()
             txSetFillColor (TX_BLUE);
             }
 
-        txSleep (200);
+        txSleep (100);
         }
     }
 //-----------------------------------------------------------------------------
@@ -93,7 +93,7 @@ bool CollisionIn (Ball Ball1, Ball Ball2)
 double Collision (Ball Ball1, Ball Ball2)
     {
     double rBB = sqrt ((Ball1.x - Ball2.x) * (Ball1.x - Ball2.x) + (Ball1.y - Ball2.y) * (Ball1.y - Ball2.y));
-    printf ("расстояние между шарами Collision () rBB = %lg       \n", rBB);
+   // printf ("расстояние между шарами Collision () rBB = %lg       \n", rBB);
 
     return rBB;
     }
@@ -152,6 +152,10 @@ void AnswerCollision (struct Ball* Ball1, struct Ball* Ball2, double dt)
     (*Ball1).vy = Vt1 * sin + Vn1 * cos;
     (*Ball2).vy = Vt2 * sin + Vn2 * cos;
 
+    (*Ball1).x += (*Ball1).vx / 12 * dt;
+    (*Ball2).x += (*Ball2).vx / 12 * dt;
+    (*Ball1).y += (*Ball1).vy / 12 * dt;
+    (*Ball2).y += (*Ball2).vy / 12 * dt;
 
       //printf ("OLDkoord X = %lg \n", oldx1);
       //printf ("koord X = %lg \n", (*Ball2).x);
