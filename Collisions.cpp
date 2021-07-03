@@ -57,7 +57,6 @@ void Move_Ball ()
 
         if (CollisionIn (Ball1, Ball2))
             {
-
             AnswerCollision(&Ball1, &Ball2, dt);
             }
 
@@ -132,30 +131,30 @@ void MoveBall (struct Ball* Ball, double dt)
 void AnswerCollision (struct Ball* Ball1, struct Ball* Ball2, double dt)
     {
     //float rBB = Colision (Ball1, Ball2);
-    float rBB = sqrt (((*Ball1).x - (*Ball2).x) * ((*Ball1).x - (*Ball2).x) +
+    double rBB = sqrt (((*Ball1).x - (*Ball2).x) * ((*Ball1).x - (*Ball2).x) +
                       ((*Ball1).y - (*Ball2).y) * ((*Ball1).y - (*Ball2).y));
     if (rBB == 0) rBB = 0.01;
-    float cos = (*Ball1).x / rBB;
-    float sin = (*Ball1).y / rBB;
+    double cos = (*Ball1).x / rBB;
+    double sin = (*Ball1).y / rBB;
 
-    float Vn1 = - (*Ball1).vx * sin + (*Ball1).vy * cos;
-    float Vn2 = - (*Ball2).vx * sin + (*Ball2).vy * cos;
-    float Vt1 =   (*Ball1).vx * cos + (*Ball2).vy * sin;
-    float Vt2 =   (*Ball2).vx * cos + (*Ball2).vy * sin;
+    double Vn1 = - (*Ball1).vx * sin + (*Ball1).vy * cos;
+    double Vn2 = - (*Ball2).vx * sin + (*Ball2).vy * cos;
+    double Vt1 =   (*Ball1).vx * cos + (*Ball2).vy * sin;
+    double Vt2 =   (*Ball2).vx * cos + (*Ball2).vy * sin;
 
-    float dop = Vn1;
-          Vn1 = Vn2;
-          Vn2 = dop;
+    double dop = Vn1;
+           Vn1 = Vn2;
+           Vn2 = dop;
 
     (*Ball1).vx = Vt1 * cos - Vn1 * sin;
     (*Ball2).vx = Vt2 * cos - Vn2 * sin;
     (*Ball1).vy = Vt1 * sin + Vn1 * cos;
     (*Ball2).vy = Vt2 * sin + Vn2 * cos;
 
-    (*Ball1).x += (*Ball1).vx / 12 * dt;
-    (*Ball2).x += (*Ball2).vx / 12 * dt;
-    (*Ball1).y += (*Ball1).vy / 12 * dt;
-    (*Ball2).y += (*Ball2).vy / 12 * dt;
+    (*Ball1).x += (*Ball1).vx * dt;
+    (*Ball2).x += (*Ball2).vx * dt;
+    (*Ball1).y += (*Ball1).vy * dt;
+    (*Ball2).y += (*Ball2).vy * dt;
 
       //printf ("OLDkoord X = %lg \n", oldx1);
       //printf ("koord X = %lg \n", (*Ball2).x);
