@@ -130,9 +130,10 @@ void MoveBall (struct Ball* Ball, double dt)
 
 void AnswerCollision (struct Ball* Ball1, struct Ball* Ball2, double dt)
     {
-    //float rBB = Colision (Ball1, Ball2);
-    double rBB = sqrt (((*Ball1).x - (*Ball2).x) * ((*Ball1).x - (*Ball2).x) +
-                      ((*Ball1).y - (*Ball2).y) * ((*Ball1).y - (*Ball2).y));
+    rBB = Colision (Ball1, Ball2);
+    /*double rBB = sqrt (((*Ball1).x - (*Ball2).x) * ((*Ball1).x - (*Ball2).x) +
+                      ((*Ball1).y - (*Ball2).y) * ((*Ball1).y - (*Ball2).y)); */
+
     if (rBB == 0) rBB = 0.01;
     double cos = (*Ball1).x / rBB;
     double sin = (*Ball1).y / rBB;

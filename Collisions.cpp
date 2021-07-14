@@ -38,8 +38,8 @@ int main()
 
 void Move_Ball ()
     {
-    struct Ball Ball1 = {100, 130, 30, 5, 2, 0, 0, TX_LIGHTGREEN,     TX_GREEN};
-    struct Ball Ball2 = {120, 150, 30, 3, 1, 0, 1, RGB (12, 15, 128), RGB (122, 0, 128)};
+    struct Ball Ball1 = {100, 130, 20, 5, 2, 0, 0, TX_LIGHTGREEN,     TX_GREEN};
+    struct Ball Ball2 = {120, 150, 20, 3, 1, 0, 1, RGB (12, 15, 128), RGB (122, 0, 128)};
 
     double dt = 1;
 
@@ -60,8 +60,8 @@ void Move_Ball ()
             AnswerCollision(&Ball1, &Ball2, dt);
             }
 
-        if (txGetAsyncKeyState (VK_RIGHT)) Ball1.vx --;
-        if (txGetAsyncKeyState (VK_LEFT))  Ball1.vx ++;
+        if (txGetAsyncKeyState (VK_RIGHT)) Ball1.vx ++;
+        if (txGetAsyncKeyState (VK_LEFT))  Ball1.vx --;
         if (txGetAsyncKeyState (VK_UP))    Ball1.vy --;
         if (txGetAsyncKeyState (VK_DOWN))  Ball1.vy ++;
 
@@ -78,7 +78,7 @@ void Move_Ball ()
             txSetFillColor (TX_BLUE);
             }
 
-        txSleep (100);
+        txSleep (200);
         }
     }
 //-----------------------------------------------------------------------------
@@ -130,9 +130,10 @@ void MoveBall (struct Ball* Ball, double dt)
 
 void AnswerCollision (struct Ball* Ball1, struct Ball* Ball2, double dt)
     {
-    //float rBB = Colision (Ball1, Ball2);
-    double rBB = sqrt (((*Ball1).x - (*Ball2).x) * ((*Ball1).x - (*Ball2).x) +
-                      ((*Ball1).y - (*Ball2).y) * ((*Ball1).y - (*Ball2).y));
+    double rBB = Collision (*Ball1, *Ball2);
+    /*double rBB = sqrt (((*Ball1).x - (*Ball2).x) * ((*Ball1).x - (*Ball2).x) +
+                      ((*Ball1).y - (*Ball2).y) * ((*Ball1).y - (*Ball2).y)); */
+
     if (rBB == 0) rBB = 0.01;
     double cos = (*Ball1).x / rBB;
     double sin = (*Ball1).y / rBB;

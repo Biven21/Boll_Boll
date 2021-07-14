@@ -172,3 +172,177 @@ Run file:	D:\school\КПК\Репозиторий\Boll_Boll\Boll_Boll\Collisions.exe
 Directory:	D:\school\КПК\Репозиторий\Boll_Boll\Boll_Boll
 
 --------------------------------------------------
+
+--------------------------------------------------
+TXLib предупреждает:
+
+Программа: D:\school\КПК\Репозиторий\Boll_Boll\Boll_Boll\Collisions.exe,
+
+ВНЕЗАПНО: Недопустимая операция с плавающей точкой.
+
+#1: Исключение EXCEPTION_FLT_INVALID_OPERATION (0xC0000090) при выполнении кода по адресу 0x0041ED11 в функции txEllipse() в файле D:/school/КПК/TX/TXLib.h на строке 13285 в модуле D:\school\КПК\Репозиторий\Boll_Boll\Boll_Boll\Collisions.exe. Спасибо _txVectoredExceptionHandler(), что сообщил. Люблю его <3
+
+#1: TXLib [Ver: 00173a, Rev: 171, Date: 2021-07-13 20:33:25 +0400], Instance: 0x005072FC (32-bit), Flags: CMdRe0, Thread: 0x16A8 (Main). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x0041ED11 in D:\school\КПК\Репозиторий\Boll_Boll\Boll_Boll\Collisions.exe: txEllipse() at D:/school/КПК/TX/TXLib.h (13285)
+# 1 0x0041EF55 in D:\school\КПК\Репозиторий\Boll_Boll\Boll_Boll\Collisions.exe: txCircle() at D:/school/КПК/TX/TXLib.h (13292)
+
+# 2 0x0042D55E in D:\school\КПК\Репозиторий\Boll_Boll\Boll_Boll\Collisions.exe: DrawBall() at D:/school/КПК/Репозиторий/Boll_Boll/Boll_Boll/Collisions.cpp (106):
+
+    104:      txSetFillColor (Ball.fillcolor);
+    105: 
+=>  106:      txCircle (Ball.x, Ball.y, Ball.rBall);
+    107:      }
+    108: 
+
+# 3 0x0042CCD0 in D:\school\КПК\Репозиторий\Boll_Boll\Boll_Boll\Collisions.exe: Move_Ball() at D:/school/КПК/Репозиторий/Boll_Boll/Boll_Boll/Collisions.cpp (51):
+
+     49:         {
+     50:         txClear ();
+=>   51:         DrawBall (Ball1);
+     52:         DrawBall (Ball2);
+     53:         txSetFillColor (TX_BLACK);
+
+# 4 0x0042CB7F in D:\school\КПК\Репозиторий\Boll_Boll\Boll_Boll\Collisions.exe: main() at D:/school/КПК/Репозиторий/Boll_Boll/Boll_Boll/Collisions.cpp (32):
+
+     30:     txCreateWindow (900, 600);
+     31: 
+=>   32:     Move_Ball ();
+     33: 
+     34:     return 0;
+
+--------------------------------------------------
+Стек вызовов TX:
+
+# 0 in bool {anonymous}::TX::txEllipse(double, double, double, double, HDC) at D:\school\КПК\TX\TXLib.h (13285):
+
+  13283: $1  if (_TX_DEFAULT_HDC_FAILED (dc)) return false;
+  13284: 
+=>13285: $   return txGDI ((Win32::Ellipse (dc, ROUND (x0), ROUND (y0), ROUND (x1), ROUND (y1))), dc);
+  13286:     }
+  13287: 
+
+# 1 in bool {anonymous}::TX::txCircle(double, double, double) at D:\school\КПК\TX\TXLib.h (13292):
+
+  13290: bool txCircle (double x, double y, double r)
+  13291:     {
+=>13292: $1  return txEllipse (x-r, y-r, x+r, y+r);
+  13293:     }
+  13294: 
+
+# 2 in void DrawBall(Ball) at D:\school\КПК\Репозиторий\Boll_Boll\Boll_Boll\Collisions.cpp (106):
+
+    104:      txSetFillColor (Ball.fillcolor);
+    105: 
+=>  106:      txCircle (Ball.x, Ball.y, Ball.rBall);
+    107:      }
+    108: 
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library)
+TXLib [Ver: 00173a, Rev: 171, Date: 2021-07-13 20:33:25 +0400]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	D:\school\КПК\TX\TXLib.h
+Compiled:	Jul 14 2021 14:05:41, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Jul 14 2021 14:05:47
+
+Run file:	D:\school\КПК\Репозиторий\Boll_Boll\Boll_Boll\Collisions.exe
+Directory:	D:\school\КПК\Репозиторий\Boll_Boll\Boll_Boll
+
+--------------------------------------------------
+
+--------------------------------------------------
+TXLib соболезнует...
+
+Программа: D:\school\КПК\Репозиторий\Boll_Boll\Boll_Boll\Collisions.exe,
+
+ВНЕЗАПНО: signal (8, 0x00): SIGFPE: Грубая ошибка в вычислениях. 
+
+Недопустимая операция с плавающей точкой.
+
+#1: Исключение EXCEPTION_FLT_INVALID_OPERATION (0xC0000090) при выполнении кода по адресу 0x0041ED11 в функции txEllipse() в файле D:/school/КПК/TX/TXLib.h на строке 13285 в модуле D:\school\КПК\Репозиторий\Boll_Boll\Boll_Boll\Collisions.exe. Спасибо _txVectoredExceptionHandler(), что сообщил. Люблю его <3
+
+С помощью функции signal() вы можете сами обработать эту ошибку.
+
+#2: TXLib [Ver: 00173a, Rev: 171, Date: 2021-07-13 20:33:25 +0400], Instance: 0x005072FC (32-bit), Flags: CMdRe0, Thread: 0x16A8 (Main). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x0041ED11 in D:\school\КПК\Репозиторий\Boll_Boll\Boll_Boll\Collisions.exe: txEllipse() at D:/school/КПК/TX/TXLib.h (13285)
+# 1 0x0041EF55 in D:\school\КПК\Репозиторий\Boll_Boll\Boll_Boll\Collisions.exe: txCircle() at D:/school/КПК/TX/TXLib.h (13292)
+
+# 2 0x0042D55E in D:\school\КПК\Репозиторий\Boll_Boll\Boll_Boll\Collisions.exe: DrawBall() at D:/school/КПК/Репозиторий/Boll_Boll/Boll_Boll/Collisions.cpp (106):
+
+    104:      txSetFillColor (Ball.fillcolor);
+    105: 
+=>  106:      txCircle (Ball.x, Ball.y, Ball.rBall);
+    107:      }
+    108: 
+
+# 3 0x0042CCD0 in D:\school\КПК\Репозиторий\Boll_Boll\Boll_Boll\Collisions.exe: Move_Ball() at D:/school/КПК/Репозиторий/Boll_Boll/Boll_Boll/Collisions.cpp (51):
+
+     49:         {
+     50:         txClear ();
+=>   51:         DrawBall (Ball1);
+     52:         DrawBall (Ball2);
+     53:         txSetFillColor (TX_BLACK);
+
+# 4 0x0042CB7F in D:\school\КПК\Репозиторий\Boll_Boll\Boll_Boll\Collisions.exe: main() at D:/school/КПК/Репозиторий/Boll_Boll/Boll_Boll/Collisions.cpp (32):
+
+     30:     txCreateWindow (900, 600);
+     31: 
+=>   32:     Move_Ball ();
+     33: 
+     34:     return 0;
+
+--------------------------------------------------
+Стек вызовов TX:
+
+# 0 in bool {anonymous}::TX::txEllipse(double, double, double, double, HDC) at D:\school\КПК\TX\TXLib.h (13285):
+
+  13283: $1  if (_TX_DEFAULT_HDC_FAILED (dc)) return false;
+  13284: 
+=>13285: $   return txGDI ((Win32::Ellipse (dc, ROUND (x0), ROUND (y0), ROUND (x1), ROUND (y1))), dc);
+  13286:     }
+  13287: 
+
+# 1 in bool {anonymous}::TX::txCircle(double, double, double) at D:\school\КПК\TX\TXLib.h (13292):
+
+  13290: bool txCircle (double x, double y, double r)
+  13291:     {
+=>13292: $1  return txEllipse (x-r, y-r, x+r, y+r);
+  13293:     }
+  13294: 
+
+# 2 in void DrawBall(Ball) at D:\school\КПК\Репозиторий\Boll_Boll\Boll_Boll\Collisions.cpp (106):
+
+    104:      txSetFillColor (Ball.fillcolor);
+    105: 
+=>  106:      txCircle (Ball.x, Ball.y, Ball.rBall);
+    107:      }
+    108: 
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library)
+TXLib [Ver: 00173a, Rev: 171, Date: 2021-07-13 20:33:25 +0400]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	D:\school\КПК\TX\TXLib.h
+Compiled:	Jul 14 2021 14:05:41, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Jul 14 2021 14:05:46
+
+Run file:	D:\school\КПК\Репозиторий\Boll_Boll\Boll_Boll\Collisions.exe
+Directory:	D:\school\КПК\Репозиторий\Boll_Boll\Boll_Boll
+
+--------------------------------------------------
