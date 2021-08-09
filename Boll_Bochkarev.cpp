@@ -4,7 +4,7 @@
 
 void Move_Ball ();
 void DrawBall (int x, int y, int r, COLORREF color, COLORREF fillcolor);
-void MoveBall (int* x, int* y, int* vx, int* vy, int ax, int ay, int dt);
+void MoveBall (int* x, int* y, int r, int* vx, int* vy, int ax, int ay, int dt);
 
 int main()
     {
@@ -27,15 +27,15 @@ void Move_Ball ()
 
     int x1  = 120, y1  = 150,
         vx1 = 6,   vy1 = 3;
-    int ax1 = 0,   ay1 = 2;
+    int ax1 = 0,   ay1 = 0;
 
     while (!txGetAsyncKeyState (VK_ESCAPE))
         {
-        DrawBall (x,  y,  10, TX_LIGHTGREEN, TX_GREEN);
-        DrawBall (x1, y1, 15, RGB (x1, y1, 128), RGB (x1 /2, y1 /2, 128));
+        DrawBall (x,  y,  20, TX_LIGHTGREEN, TX_GREEN);
+        DrawBall (x1, y1, 25, RGB (x1, y1, 128), RGB (x1 /2, y1 /2, 128));
 
-        MoveBall (&x,  &y,  &vx,  &vy,  ax,   ay,   dt);
-        MoveBall (&x1, &y1, &vx1, &vy1, ax1, ay1, dt);
+        MoveBall (&x,  &y,  20, &vx,  &vy,  ax,   ay,   dt);
+        MoveBall (&x1, &y1, 25, &vx1, &vy1, ax1, ay1, dt);
 
         if (txGetAsyncKeyState (VK_RIGHT)) vx --;
         if (txGetAsyncKeyState (VK_LEFT))  vx ++;
@@ -71,7 +71,7 @@ void DrawBall (int x, int y, int r, COLORREF color, COLORREF fillcolor)
 
 //-----------------------------------------------------------------------------
 
-void MoveBall (int* x, int* y, int* vx, int* vy, int ax, int ay, int dt)
+void MoveBall (int* x, int* y, int r, int* vx, int* vy, int ax, int ay, int dt)
     {
     *vx += ax * dt;
     *vy += ay * dt;
@@ -82,13 +82,14 @@ void MoveBall (int* x, int* y, int* vx, int* vy, int ax, int ay, int dt)
     (*y) += (*vy) * dt;
 
     //printf ("MoveBall (): x = %d  vx = %d raschet                \n", *x, vx);
-    if (*x > 900) {*vx = -(*vx); (*x) = 900;}
 
-    if (*y > 600) {*vy = -(*vy);  *y  = 600;}
+    if ((*x) > 900 - r) {*vx = -(*vx); (*x) = (900 - r) - ((*x) - (900 - r));}
 
-    if (*x < 0)   {*vx = -(*vx); (*x) = 0;}
+    if ((*y) > 600 - r) {*vy = -(*vy); (*y) = (600 - r) - ((*y) - (600 - r));}
 
-    if (*y < 0)   {*vy = -(*vy);  *y  = 0;}
+    if ((*x) < 0 + r)   {*vx = -(*vx); (*x) = (0 + r) + (0 + r - (*x));}
+
+    if ((*y) < 0 + r)   {*vy = -(*vy); (*y) = (0 + r) + (0 + r - (*y));}
 
     //printf ("MoveBall (): x = %d  vx = %d (after - ) adr_vx = %p \n\n", *x, vx, &vx);
     }
