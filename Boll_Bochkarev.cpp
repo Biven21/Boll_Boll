@@ -5,6 +5,7 @@
 void Move_Ball ();
 void DrawBall (int x, int y, int r, COLORREF color, COLORREF fillcolor);
 void MoveBall (int* x, int* y, int r, int* vx, int* vy, int ax, int ay, int dt);
+void BallControl (int* vx, int* vy);
 
 int main()
     {
@@ -31,18 +32,29 @@ void Move_Ball ()
 
     while (!txGetAsyncKeyState (VK_ESCAPE))
         {
-        DrawBall (x,  y,  20, TX_LIGHTGREEN, TX_GREEN);
+        DrawBall (x,  y,  20, color, fillcolor);
         DrawBall (x1, y1, 25, RGB (x1, y1, 128), RGB (x1 /2, y1 /2, 128));
 
         MoveBall (&x,  &y,  20, &vx,  &vy,  ax,   ay,   dt);
         MoveBall (&x1, &y1, 25, &vx1, &vy1, ax1, ay1, dt);
 
-        if (txGetAsyncKeyState (VK_RIGHT)) vx --;
-        if (txGetAsyncKeyState (VK_LEFT))  vx ++;
-        if (txGetAsyncKeyState (VK_UP))    vy --;
-        if (txGetAsyncKeyState (VK_DOWN))  vy ++;
+        BallControl (&vx, &vy);
 
-        if (txGetAsyncKeyState (VK_SPACE)) vx = vy = 0;
+        txSleep (10);
+        }
+    }
+
+
+//-----------------------------------------------------------------------------
+void BallControl (int* vx, int* vy)
+        {
+
+        if (txGetAsyncKeyState (VK_RIGHT)) (*vx) --;
+        if (txGetAsyncKeyState (VK_LEFT))  (*vx) ++;
+        if (txGetAsyncKeyState (VK_UP))    (*vy) --;
+        if (txGetAsyncKeyState (VK_DOWN))  (*vy) ++;
+
+        if (txGetAsyncKeyState (VK_SPACE)) (*vx) = (*vy) = 0;
 
         if (txGetAsyncKeyState (VK_F1))
             {
@@ -54,11 +66,7 @@ void Move_Ball ()
             txSetColor (TX_LIGHTBLUE, 2);
             txSetFillColor (TX_BLUE);
             }
-
-        txSleep (10);
-        }
-    }
-
+         }
 //-----------------------------------------------------------------------------
 
 void DrawBall (int x, int y, int r, COLORREF color, COLORREF fillcolor)
