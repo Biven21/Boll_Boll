@@ -28,16 +28,20 @@ void Move_Ball ()
     int dt = 1;
 
     int x1  = 120, y1  = 150,
-        vx1 = -6,   vy1 = 3;
+        vx1 = -6,  vy1 = 3;
     int ax1 = 0,   ay1 = 0;
 
     while (!txGetAsyncKeyState (VK_ESCAPE))
         {
-        DrawBall (x,  y,  20, TX_LIGHTGREEN, TX_GREEN);
-        DrawBall (x1, y1, 25, RGB (x1, y1, 128), RGB (x1 /2, y1 /2, 128));
+        DrawBall (x,  y,  15, TX_LIGHTGREEN, TX_GREEN);
+        DrawBall (x1, y1, 15, RGB (x1, y1, 128), RGB (x1 /2, y1 /2, 128));
 
-        MoveBall (&x,  &y,  20, &vx,  &vy,  ax,   ay, dt);
-        MoveBall (&x1, &y1, 25, &vx1, &vy1, ax1, ay1, dt);
+        MoveBall (&x,  &y,  15, &vx,  &vy,  ax,   ay, dt);
+        MoveBall (&x1, &y1, 15, &vx1, &vy1, ax1, ay1, dt);
+
+        txSetColor (TX_WHITE);
+        txLine (x, y, x + vx*15, y + vy*15);
+        txCircle (x + vx*15, y + vy*15, 5);
 
         DrawStr (x);
 
