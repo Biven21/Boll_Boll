@@ -22,20 +22,20 @@ void Move_Ball ()
     {
     int x  = 100, y  = 130,
         vx =   5, vy =   2;
-    int ax =   0, ay =  -1;
+    int ax =   0, ay =   0;
 
     int dt = 1;
 
     int x1  = 120, y1  = 150,
-        vx1 = 6,   vy1 = 3;
+        vx1 = -6,   vy1 = 3;
     int ax1 = 0,   ay1 = 0;
 
     while (!txGetAsyncKeyState (VK_ESCAPE))
         {
-        DrawBall (x,  y,  20, color, fillcolor);
+        DrawBall (x,  y,  20, TX_LIGHTGREEN, TX_GREEN);
         DrawBall (x1, y1, 25, RGB (x1, y1, 128), RGB (x1 /2, y1 /2, 128));
 
-        MoveBall (&x,  &y,  20, &vx,  &vy,  ax,   ay,   dt);
+        MoveBall (&x,  &y,  20, &vx,  &vy,  ax,   ay, dt);
         MoveBall (&x1, &y1, 25, &vx1, &vy1, ax1, ay1, dt);
 
         BallControl (&vx, &vy);
@@ -48,31 +48,30 @@ void Move_Ball ()
 //-----------------------------------------------------------------------------
 void BallControl (int* vx, int* vy)
         {
-
         if (txGetAsyncKeyState (VK_RIGHT)) (*vx) --;
         if (txGetAsyncKeyState (VK_LEFT))  (*vx) ++;
         if (txGetAsyncKeyState (VK_UP))    (*vy) --;
         if (txGetAsyncKeyState (VK_DOWN))  (*vy) ++;
 
         if (txGetAsyncKeyState (VK_SPACE)) (*vx) = (*vy) = 0;
-
-        if (txGetAsyncKeyState (VK_F1))
-            {
-            txSetColor (TX_LIGHTGREEN, 2);
-            txSetFillColor (TX_GREEN);
-            }
-        if (txGetAsyncKeyState (VK_F2))
-            {
-            txSetColor (TX_LIGHTBLUE, 2);
-            txSetFillColor (TX_BLUE);
-            }
-         }
+        }
 //-----------------------------------------------------------------------------
 
 void DrawBall (int x, int y, int r, COLORREF color, COLORREF fillcolor)
      {
      txSetColor (color, 2);
      txSetFillColor (fillcolor);
+
+     if (txGetAsyncKeyState (VK_F1))
+            {
+            txSetColor (TX_LIGHTGREEN, 2);
+            txSetFillColor (TX_GREEN);
+            }
+     if (txGetAsyncKeyState (VK_F2))
+            {
+            txSetColor (TX_LIGHTBLUE, 2);
+            txSetFillColor (TX_BLUE);
+            }
 
      txCircle (x, y, r);
      }
