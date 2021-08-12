@@ -3,6 +3,7 @@
 #include "TXLib.h"
 
 void Move_Ball ();
+void DrawStr (int x);
 void DrawBall (int x, int y, int r, COLORREF color, COLORREF fillcolor);
 void MoveBall (int* x, int* y, int r, int* vx, int* vy, int ax, int ay, int dt);
 void BallControl (int* vx, int* vy);
@@ -38,12 +39,38 @@ void Move_Ball ()
         MoveBall (&x,  &y,  20, &vx,  &vy,  ax,   ay, dt);
         MoveBall (&x1, &y1, 25, &vx1, &vy1, ax1, ay1, dt);
 
+        DrawStr (x);
+
         BallControl (&vx, &vy);
 
         txSleep (10);
         }
     }
 
+//-----------------------------------------------------------------------------
+void DrawStr (int x)
+    {
+    txSetTextAlign (TA_CENTER);
+    txSelectFont ("Timse", 20);
+
+    char strX [20] = "";
+    sprintf (strX, "x = %d", x);
+
+    int centrX = txGetExtentX ()/2,
+        centrY = txGetExtentY ()/2;
+
+    int textSizeX = txGetTextExtentX ("x = 0000"),
+        textSizeY = txGetTextExtentY ("x = 0000");
+
+    txSetColor (TX_WHITE);
+    txSetFillColor (TX_BLACK);
+
+    txRectangle (centrX - textSizeX/2 - 20, centrY - textSizeY/2 - 20,
+                 centrX - textSizeX/2 + 20, centrY - textSizeY/2 + 20);
+
+    txDrawText (centrX - textSizeX/2 - 20, centrY - textSizeY/2 - 20,
+                centrX - textSizeX/2 + 20, centrY - textSizeY/2 + 20, strX);
+    }
 
 //-----------------------------------------------------------------------------
 void BallControl (int* vx, int* vy)
