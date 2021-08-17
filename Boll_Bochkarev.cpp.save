@@ -3,14 +3,17 @@
 #include "TXLib.h"
 
 void Move_Ball ();
-void DrawStr (int x);
+void DrawStr  (int x);
 void DrawBall (int x, int y, int r, COLORREF color, COLORREF fillcolor);
 void MoveBall (int* x, int* y, int r, int* vx, int* vy, int ax, int ay, int dt);
 void BallControl (int* vx, int* vy);
 
-int main()
+int main ()
     {
     txCreateWindow (900, 600);
+    txSetFillColor (TX_YELLOW);
+
+    txSleep (2000);
 
     Move_Ball ();
 
@@ -33,14 +36,15 @@ void Move_Ball ()
 
     while (!txGetAsyncKeyState (VK_ESCAPE))
         {
-        DrawBall (x,  y,  20, TX_LIGHTGREEN, TX_GREEN);
-        DrawBall (x1, y1, 25, RGB (x1, y1, 128), RGB (x1 /2, y1 /2, 128));
+        DrawBall (x,  y,  15, TX_LIGHTGREEN, TX_GREEN);
+        DrawBall (x1, y1, 15, RGB (x1, y1, 128), RGB (x1 /2, y1 /2, 128));
 
-        MoveBall (&x,  &y,  20, &vx,  &vy,  ax,   ay, dt);
-        MoveBall (&x1, &y1, 25, &vx1, &vy1, ax1, ay1, dt);
-        
-        txLine (x, y, x + vx*5, y + vy*5)
-        txCircle (x + vx*5, y + vy*5, )
+        MoveBall (&x,  &y,  15, &vx,  &vy,  ax,   ay, dt);
+        MoveBall (&x1, &y1, 15, &vx1, &vy1, ax1, ay1, dt);
+
+        txSetColor (TX_WHITE);
+        txLine (x, y, x + vx*15, y + vy*15);
+        txCircle (x + vx*15, y + vy*15, 5);
 
         DrawStr (x);
 
@@ -54,7 +58,7 @@ void Move_Ball ()
 void DrawStr (int x)
     {
     txSetTextAlign (TA_CENTER);
-    txSelectFont ("Timse", 20);
+    txSelectFont ("Timse", 30);
 
     char strX [20] = "";
     sprintf (strX, "x = %d", x);
@@ -68,11 +72,11 @@ void DrawStr (int x)
     txSetColor (TX_WHITE);
     txSetFillColor (TX_BLACK);
 
-    txRectangle (centrX - textSizeX/2 - 20, centrY - textSizeY/2 - 20,
-                 centrX - textSizeX/2 + 20, centrY - textSizeY/2 + 20);
+    txRectangle (centrX - textSizeX/2 - 40, centrY - textSizeY/2 - 30,
+                 centrX - textSizeX/2 + 40, centrY - textSizeY/2 + 30);
 
-    txDrawText (centrX - textSizeX/2 - 20, centrY - textSizeY/2 - 20,
-                centrX - textSizeX/2 + 20, centrY - textSizeY/2 + 20, strX);
+    txDrawText  (centrX - textSizeX/2 - 40, centrY - textSizeY/2 - 40,
+                 centrX - textSizeX/2 + 40, centrY - textSizeY/2 + 40, strX);
     }
 
 //-----------------------------------------------------------------------------

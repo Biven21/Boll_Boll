@@ -1,0 +1,116 @@
+
+--------------------------------------------------
+TXLib соболезнует...
+
+Программа: C:\Users\User\Documents\GitHub\Boll_Boll\Boll_Bochkarev.exe, файл: C:\Users\User\Desktop\ИГОРЬ\КПК\TX\TXLib.h, строка: 13172, функция: HBRUSH__* {anonymous}::TX::txSetFillColor(COLORREF, HDC),
+
+Сообщение: Окно рисования не создано или не в порядке.
+
+#1: TXLib [Ver: 00173a, Rev: 171, Date: 2021-07-19 01:45:49 +0400], Instance: 0x005062FC (32-bit), Flags: Cmdre0, Thread: 0x320 (Main), GetLastError(): 13 (Недопустимые данные). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x0041D461 in C:\Users\User\Documents\GitHub\Boll_Boll\Boll_Bochkarev.exe: txSetFillColor() at C:/Users/User/Desktop/ИГОРЬ/КПК/TX/TXLib.h (13172)
+
+# 1 0x0042CB99 in C:\Users\User\Documents\GitHub\Boll_Boll\Boll_Bochkarev.exe: main() at C:/Users/User/Documents/GitHub/Boll_Boll/Boll_Bochkarev.cpp (13):
+
+     11: int main ()
+     12:     {
+=>   13:     txSetFillColor (TX_YELLOW);
+     14:     txCreateWindow (900, 600);
+     15: 
+
+--------------------------------------------------
+Стек вызовов TX:
+
+# 0 in HBRUSH__* {anonymous}::TX::txSetFillColor(COLORREF, HDC) at C:\Users\User\Desktop\ИГОРЬ\КПК\TX\TXLib.h (13172):
+
+  13170: HBRUSH txSetFillColor (COLORREF color, HDC dc /*= txDC()*/)
+  13171:     {
+=>13172: $1  if (_TX_DEFAULT_HDC_FAILED (dc)) return NULL;
+  13173: 
+  13174: $   HBRUSH brush = (color == TX_TRANSPARENT)? (HBRUSH) Win32::GetStockObject (HOLLOW_BRUSH) : Win32::CreateSolidBrush (color);
+
+# 1 in int main() at C:\Users\User\Documents\GitHub\Boll_Boll\Boll_Bochkarev.cpp (13):
+
+     11: int main ()
+     12:     {
+=>   13:     txSetFillColor (TX_YELLOW);
+     14:     txCreateWindow (900, 600);
+     15: 
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library)
+TXLib [Ver: 00173a, Rev: 171, Date: 2021-07-19 01:45:49 +0400]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	C:\Users\User\Desktop\ИГОРЬ\КПК\TX\TXLib.h
+Compiled:	Aug 17 2021 12:07:37, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Aug 17 2021 12:07:41
+
+Run file:	C:\Users\User\Documents\GitHub\Boll_Boll\Boll_Bochkarev.exe
+Directory:	C:\Users\User\Documents\GitHub\Boll_Boll
+
+--------------------------------------------------
+
+--------------------------------------------------
+TXLib соболезнует...
+
+Программа: C:\Users\User\Documents\GitHub\Boll_Boll\Boll_Bochkarev.exe, файл: C:\Users\User\Desktop\ИГОРЬ\КПК\TX\TXLib.h, строка: 13172, функция: HBRUSH__* {anonymous}::TX::txSetFillColor(COLORREF, HDC),
+
+Сообщение: Окно рисования не создано или не в порядке.
+
+#1: TXLib [Ver: 00173a, Rev: 171, Date: 2021-07-19 01:45:49 +0400], Instance: 0x005062FC (32-bit), Flags: Cmdre0, Thread: 0x2498 (Main), GetLastError(): 13 (Недопустимые данные). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x0041D461 in C:\Users\User\Documents\GitHub\Boll_Boll\Boll_Bochkarev.exe: txSetFillColor() at C:/Users/User/Desktop/ИГОРЬ/КПК/TX/TXLib.h (13172)
+
+# 1 0x0042CB99 in C:\Users\User\Documents\GitHub\Boll_Boll\Boll_Bochkarev.exe: main() at C:/Users/User/Documents/GitHub/Boll_Boll/Boll_Bochkarev.cpp (13):
+
+     11: int main ()
+     12:     {
+=>   13:     txSetFillColor (TX_YELLOW);
+     14:     txCreateWindow (900, 600);
+     15: 
+
+--------------------------------------------------
+Стек вызовов TX:
+
+# 0 in HBRUSH__* {anonymous}::TX::txSetFillColor(COLORREF, HDC) at C:\Users\User\Desktop\ИГОРЬ\КПК\TX\TXLib.h (13172):
+
+  13170: HBRUSH txSetFillColor (COLORREF color, HDC dc /*= txDC()*/)
+  13171:     {
+=>13172: $1  if (_TX_DEFAULT_HDC_FAILED (dc)) return NULL;
+  13173: 
+  13174: $   HBRUSH brush = (color == TX_TRANSPARENT)? (HBRUSH) Win32::GetStockObject (HOLLOW_BRUSH) : Win32::CreateSolidBrush (color);
+
+# 1 in int main() at C:\Users\User\Documents\GitHub\Boll_Boll\Boll_Bochkarev.cpp (13):
+
+     11: int main ()
+     12:     {
+=>   13:     txSetFillColor (TX_YELLOW);
+     14:     txCreateWindow (900, 600);
+     15: 
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library)
+TXLib [Ver: 00173a, Rev: 171, Date: 2021-07-19 01:45:49 +0400]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	C:\Users\User\Desktop\ИГОРЬ\КПК\TX\TXLib.h
+Compiled:	Aug 17 2021 12:08:11, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Aug 17 2021 12:08:16
+
+Run file:	C:\Users\User\Documents\GitHub\Boll_Boll\Boll_Bochkarev.exe
+Directory:	C:\Users\User\Documents\GitHub\Boll_Boll
+
+--------------------------------------------------
